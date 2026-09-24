@@ -178,16 +178,23 @@ textarea::placeholder {
 
     pointer-events: none;
 }
-
 .item {
     position: relative;
     z-index: 2;
 
     touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+
+    background: #111;
 
     transition:
         transform 0.15s ease,
         background 0.15s ease;
+}
+
+.item.swiping {
+    transition: none !important;
 }
 
 .item.swiping {
@@ -906,50 +913,34 @@ textarea::placeholder {
 
                 <div id="results" class="results">
 
-                    <div class="section">
-
-                        <h2>✅ TO DO</h2>
-
-                        <div id="tasks"></div>
-
-                    </div>
+                    <div class="category-header">
+    <h2>✅ TO DO</h2>
+    <button class="add-item" onclick="addItem('tasks')">+ ADD</button>
+</div>
 
 
-                    <div class="section">
-
-                        <h2>🔔 REMINDERS</h2>
-
-                        <div id="reminders"></div>
-
-                    </div>
+                    <div class="category-header">
+    <h2>🔔 REMINDERS</h2>
+    <button class="add-item" onclick="addItem('reminders')">+ ADD</button>
+</div>
 
 
-                    <div class="section">
-
-                        <h2>🛒 SHOPPING</h2>
-
-                        <div id="shopping"></div>
-
-                    </div>
+                   <div class="category-header">
+    <h2>🛒 SHOPPING</h2>
+    <button class="add-item" onclick="addItem('shopping')">+ ADD</button>
+</div>
 
 
-                    <div class="section">
-
-                        <h2>💡 IDEAS</h2>
-
-                        <div id="ideas"></div>
-
-                    </div>
+                    <div class="category-header">
+    <h2>💡 IDEAS</h2>
+    <button class="add-item" onclick="addItem('ideas')">+ ADD</button>
+</div>
 
 
-                    <div class="section">
-
-                        <h2>📝 NOTES</h2>
-
-                        <div id="notes"></div>
-
-                    </div>
-
+                   <div class="category-header">
+    <h2>📝 NOTES</h2>
+    <button class="add-item" onclick="addItem('notes')">+ ADD</button>
+</div>
 
                     <div class="save-list-container">
 
@@ -2702,9 +2693,7 @@ function displayItems(
     }
 
 
-    if (
-        items.length === 0
-    ) {
+    if (items.length === 0) {
 
         element.innerHTML =
             `<div class="item">${emptyMessage}</div>`;
@@ -2713,14 +2702,26 @@ function displayItems(
     }
 
 
-    element.innerHTML =
-        items
-            .map(item => `
+    element.innerHTML = "";
 
-                <div
-                    class="item task-item"
-                    onclick="toggleItem(this)"
-                >
+
+    items.forEach(
+        function(item, index) {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "item-wrapper";
+
+
+            wrapper.innerHTML = `
+
+                <div class="delete-background">
+                    DELETE
+                </div>
+
+                <div class="item task-item">
 
                     <span class="checkbox">
                         ☐
@@ -2732,11 +2733,35 @@ function displayItems(
 
                 </div>
 
-            `)
-            .join("");
+            `;
+
+
+            const row =
+                wrapper.querySelector(".item");
+
+
+            row.addEventListener(
+                "click",
+                function() {
+
+                    toggleItem(row);
+
+                }
+            );
+
+
+            element.appendChild(wrapper);
+
+
+            setupSwipeDelete(
+                row,
+                elementId,
+                index
+            );
+
+        }
+    );
 }
-
-
 function displayReminders() {
 
     const element =
@@ -2749,9 +2774,7 @@ function displayReminders() {
     }
 
 
-    if (
-        reminders.length === 0
-    ) {
+    if (reminders.length === 0) {
 
         element.innerHTML = `
 
@@ -2765,9 +2788,24 @@ function displayReminders() {
     }
 
 
-    element.innerHTML =
-        reminders
-            .map(reminder => `
+    element.innerHTML = "";
+
+
+    reminders.forEach(
+        function(reminder, index) {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "item-wrapper";
+
+
+            wrapper.innerHTML = `
+
+                <div class="delete-background">
+                    DELETE
+                </div>
 
                 <div class="item">
 
@@ -2782,11 +2820,287 @@ function displayReminders() {
 
                 </div>
 
-            `)
-            .join("");
+            `;
+
+
+            const row =
+                wrapper.querySelector(".item");
+
+
+            element.appendChild(wrapper);
+
+
+            setupSwipeDelete(
+                row,
+                "reminders",
+                index
+            );
+
+        }
+    );
+}
+/* ========================================
+   ADD ITEMS
+======================================== */
+
+function addItem(category) {
+
+    let label = "";
+
+    if (category === "tasks") {
+        label = "task";
+    } else if (category === "reminders") {
+        label = "reminder";
+    } else if (category === "shopping") {
+        label = "shopping item";
+    } else if (category === "ideas") {
+        label = "idea";
+    } else if (category === "notes") {
+        label = "note";
+    }
+
+    const text = prompt(
+        "Add a " + label + ":"
+    );
+
+    if (!text || !text.trim()) {
+        return;
+    }
+
+    const value = text.trim();
+
+    if (category === "reminders") {
+
+        reminders.push({
+            date: "For later",
+            text: value
+        });
+
+    } else {
+
+        if (category === "tasks") {
+            tasks.push(value);
+        }
+
+        if (category === "shopping") {
+            shopping.push(value);
+        }
+
+        if (category === "ideas") {
+            ideas.push(value);
+        }
+
+        if (category === "notes") {
+            notes.push(value);
+        }
+    }
+
+    saveData();
+    displayAll();
 }
 
 
+/* ========================================
+   SWIPE TO DELETE
+======================================== */
+
+function setupSwipeDelete(element, category, index) {
+
+    let startX = 0;
+    let currentX = 0;
+    let dragging = false;
+
+    const threshold = 100;
+    const maxSwipe = 180;
+
+
+    function start(x) {
+
+        startX = x;
+        currentX = x;
+        dragging = true;
+
+        element.classList.add("swiping");
+    }
+
+
+    function move(x) {
+
+        if (!dragging) {
+            return;
+        }
+
+        currentX = x;
+
+        let distance =
+            currentX - startX;
+
+        /*
+           Only allow swiping LEFT.
+        */
+
+        if (distance > 0) {
+            distance = 0;
+        }
+
+        distance =
+            Math.max(
+                distance,
+                -maxSwipe
+            );
+
+        element.style.transform =
+            `translateX(${distance}px)`;
+
+    }
+
+
+    function end() {
+
+        if (!dragging) {
+            return;
+        }
+
+        dragging = false;
+
+        element.classList.remove("swiping");
+
+        const distance =
+            currentX - startX;
+
+
+        if (distance <= -threshold) {
+
+            element.style.transform =
+                `translateX(-100%)`;
+
+            setTimeout(
+                function() {
+
+                    if (category === "tasks") {
+                        tasks.splice(index, 1);
+                    }
+
+                    if (category === "shopping") {
+                        shopping.splice(index, 1);
+                    }
+
+                    if (category === "ideas") {
+                        ideas.splice(index, 1);
+                    }
+
+                    if (category === "notes") {
+                        notes.splice(index, 1);
+                    }
+
+                    if (category === "reminders") {
+                        reminders.splice(index, 1);
+                    }
+
+                    saveData();
+                    displayAll();
+
+                },
+                180
+            );
+
+        } else {
+
+            element.style.transform =
+                "translateX(0)";
+
+        }
+
+    }
+
+
+    /* TOUCH */
+
+    element.addEventListener(
+        "touchstart",
+        function(event) {
+
+            if (
+                event.touches &&
+                event.touches.length
+            ) {
+
+                start(
+                    event.touches[0].clientX
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    element.addEventListener(
+        "touchmove",
+        function(event) {
+
+            if (
+                event.touches &&
+                event.touches.length
+            ) {
+
+                move(
+                    event.touches[0].clientX
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    element.addEventListener(
+        "touchend",
+        end
+    );
+
+
+    /* MOUSE */
+
+    element.addEventListener(
+        "mousedown",
+        function(event) {
+
+            start(event.clientX);
+
+        }
+    );
+
+
+    window.addEventListener(
+        "mousemove",
+        function(event) {
+
+            if (dragging) {
+                move(event.clientX);
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "mouseup",
+        function() {
+
+            if (dragging) {
+                end();
+            }
+
+        }
+    );
+}
 /* ========================================
    CHECKBOX
 ======================================== */
