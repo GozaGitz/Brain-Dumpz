@@ -50,16 +50,18 @@ textarea {
     min-height: 100vh;
     overflow: hidden;
 }
-
 .page-window {
     width: 100%;
-    overflow: hidden;
+    height: 100vh;
     min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .page-slider {
     display: flex;
     width: 300vw;
     min-width: 300vw;
+    align-items: flex-start;
     transition: transform 0.3s ease;
 }
 .page {
@@ -69,6 +71,7 @@ textarea {
     flex: 0 0 100vw;
     box-sizing: border-box;
     padding: 30px 30px 110px;
+    overflow: hidden;
 }
 
 
@@ -1305,29 +1308,36 @@ let isListening = false;
 /* ========================================
    PAGE NAVIGATION
 ======================================== */
-
 function showPage(page) {
 
-    const slider =
-        document.getElementById("pageSlider");
+    const slider = document.getElementById("pageSlider");
+    const pageWindow = document.querySelector(".page-window");
 
-    if (!slider) {
-        return;
+    if (!slider) return;
+
+    // Always reset vertical scroll when changing pages
+    if (pageWindow) {
+        pageWindow.scrollTo({
+            top: 0,
+            behavior: "instant"
+        });
     }
 
+    window.scrollTo({
+        top: 0,
+        behavior: "instant"
+    });
+
     if (page === "tasks") {
-        slider.style.transform =
-            "translateX(0%)";
+        slider.style.transform = "translateX(0)";
     }
 
     if (page === "dump") {
-        slider.style.transform =
-            "translateX(-33.333333%)";
+        slider.style.transform = "translateX(-100vw)";
     }
 
     if (page === "more") {
-        slider.style.transform =
-            "translateX(-66.666666%)";
+        slider.style.transform = "translateX(-200vw)";
     }
 }
 
