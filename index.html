@@ -273,7 +273,11 @@ textarea::placeholder {
         border-color 0.2s ease,
         transform 0.2s ease;
 }
-
+.empty-message {
+    color: #555;
+    font-size: 13px;
+    padding: 6px 0;
+}
 .mic-button:hover {
     background: #222;
     border-color: #555;
@@ -371,8 +375,9 @@ textarea::placeholder {
 .results {
     display: block;
 }
-
 .section {
+    width: 100%;
+    box-sizing: border-box;
     background: #111;
     border: 1px solid #292929;
     border-radius: 15px;
@@ -381,59 +386,115 @@ textarea::placeholder {
 }
 
 .section h2 {
+    margin: 0;
     font-size: 16px;
+    color: #fff;
+}
+
+.category-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 12px;
 }
 
+.category-header h2 {
+    margin: 0;
+}
+
+.add-item {
+    background: transparent;
+    color: #888;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 7px 11px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: .15s ease;
+}
+
+.add-item:hover {
+    background: #181818;
+    color: #fff;
+    border-color: #555;
+}
+
+.item-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.delete-background {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 22px;
+    background: #4a1111;
+    color: #ff5555;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    border-radius: 12px;
+    pointer-events: none;
+}
+
 .item {
-    color: #ccc;
-    padding: 10px 0;
-    border-bottom: 1px solid #222;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    background: #161616;
+    border: 1px solid #252525;
+    border-radius: 12px;
+    padding: 14px;
+    color: #ddd;
+    touch-action: pan-y;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
 }
 
-.item:last-child {
-    border-bottom: none;
+.item:hover {
+    background: #1b1b1b;
 }
 
-
-/* ================================
-   CLICKABLE TASKS
-================================ */
+.item.swiping {
+    transition: none;
+}
 
 .task-item {
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0.2s ease;
-}
-
-.task-item:hover {
-    background: #181818;
-    padding-left: 8px;
 }
 
 .checkbox {
-    color: white;
+    flex: 0 0 auto;
+    color: #888;
     font-size: 18px;
-    min-width: 20px;
 }
 
 .task-text {
-    transition: 0.2s ease;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
 }
 
-.task-item.completed .checkbox {
-    color: #9b5cff;
+.item.completed {
+    opacity: .45;
 }
 
-.task-item.completed .task-text {
-    color: #888;
+.item.completed .task-text {
     text-decoration: line-through;
-    text-decoration-color: #ff3b3b;
-    text-decoration-thickness: 2px;
 }
-
 
 /* ================================
    CLEAR ALL
@@ -910,63 +971,88 @@ textarea::placeholder {
 
                 </div>
 
+<div id="results">
 
-                <div id="results" class="results">
+    <div class="section">
+        <div class="category-header">
+            <h2>✅ TO DO</h2>
+            <button
+                type="button"
+                class="add-item"
+                onclick="addItem('tasks')"
+            >
+                + ADD
+            </button>
+        </div>
 
-                    <div class="category-header">
-    <h2>✅ TO DO</h2>
-    <button class="add-item" onclick="addItem('tasks')">+ ADD</button>
+        <div id="tasks"></div>
+    </div>
+
+
+    <div class="section">
+        <div class="category-header">
+            <h2>🔔 REMINDERS</h2>
+            <button
+                type="button"
+                class="add-item"
+                onclick="addItem('reminders')"
+            >
+                + ADD
+            </button>
+        </div>
+
+        <div id="reminders"></div>
+    </div>
+
+
+    <div class="section">
+        <div class="category-header">
+            <h2>🛒 SHOPPING</h2>
+            <button
+                type="button"
+                class="add-item"
+                onclick="addItem('shopping')"
+            >
+                + ADD
+            </button>
+        </div>
+
+        <div id="shopping"></div>
+    </div>
+
+
+    <div class="section">
+        <div class="category-header">
+            <h2>💡 IDEAS</h2>
+            <button
+                type="button"
+                class="add-item"
+                onclick="addItem('ideas')"
+            >
+                + ADD
+            </button>
+        </div>
+
+        <div id="ideas"></div>
+    </div>
+
+
+    <div class="section">
+        <div class="category-header">
+            <h2>📝 NOTES</h2>
+            <button
+                type="button"
+                class="add-item"
+                onclick="addItem('notes')"
+            >
+                + ADD
+            </button>
+        </div>
+
+        <div id="notes"></div>
+    </div>
+
 </div>
-
-
-                    <div class="category-header">
-    <h2>🔔 REMINDERS</h2>
-    <button class="add-item" onclick="addItem('reminders')">+ ADD</button>
-</div>
-
-
-                   <div class="category-header">
-    <h2>🛒 SHOPPING</h2>
-    <button class="add-item" onclick="addItem('shopping')">+ ADD</button>
-</div>
-
-
-                    <div class="category-header">
-    <h2>💡 IDEAS</h2>
-    <button class="add-item" onclick="addItem('ideas')">+ ADD</button>
-</div>
-
-
-                   <div class="category-header">
-    <h2>📝 NOTES</h2>
-    <button class="add-item" onclick="addItem('notes')">+ ADD</button>
-</div>
-
-                    <div class="save-list-container">
-
-                        <button
-                            class="save-list-button"
-                            onclick="saveCurrentList()"
-                        >
-                            SAVE LIST
-                        </button>
-
-                    </div>
-
-
-                    <div class="clear-all-container">
-
-                        <button
-                            class="clear-all-button"
-                            onclick="clearAllData()"
-                        >
-                            CLEAR ALL
-                        </button>
-
-                    </div>
-
-                </div>
-
             </section>
 
 
@@ -2676,91 +2762,160 @@ function displayAll() {
     );
 }
 
+function displayItems(category, items, emptyMessage) {
+    const element = document.getElementById(category);
 
-function displayItems(
-    elementId,
-    items,
-    emptyMessage
-) {
+    if (!element) return;
 
-    const element =
-        document.getElementById(
-            elementId
-        );
-
-    if (!element) {
+    if (!items.length) {
+        element.innerHTML = `
+            <div class="empty-message">
+                ${escapeHTML(emptyMessage)}
+            </div>
+        `;
         return;
     }
 
+    element.innerHTML = items.map((item, index) => `
+        <div class="item-wrapper">
+            <div class="delete-background">
+                DELETE
+            </div>
 
-    if (items.length === 0) {
+            <div
+                class="item task-item"
+                data-index="${index}"
+            >
+                <span class="checkbox">☐</span>
 
-        element.innerHTML =
-            `<div class="item">${emptyMessage}</div>`;
+                <span class="task-text">
+                    ${escapeHTML(item)}
+                </span>
+            </div>
+        </div>
+    `).join("");
 
-        return;
-    }
+    element.querySelectorAll(".item-wrapper").forEach((wrapper, index) => {
 
+        const row = wrapper.querySelector(".item");
 
-    element.innerHTML = "";
+        let suppressClick = false;
 
+        row.addEventListener("click", function() {
+            if (suppressClick) {
+                suppressClick = false;
+                return;
+            }
 
-    items.forEach(
-        function(item, index) {
+            toggleItem(row);
+        });
 
-            const wrapper =
-                document.createElement("div");
+        setupSwipeDelete(row, category, index, function() {
+            suppressClick = true;
+        });
+    });
+}
+function setupSwipeDelete(row, category, index, onDelete) {
+    let startX = 0;
+    let currentX = 0;
+    let dragging = false;
+    let pointerId = null;
 
-            wrapper.className =
-                "item-wrapper";
+    const threshold = 100;
+    const maxSwipe = 180;
 
+    row.addEventListener("pointerdown", function(e) {
 
-            wrapper.innerHTML = `
-
-                <div class="delete-background">
-                    DELETE
-                </div>
-
-                <div class="item task-item">
-
-                    <span class="checkbox">
-                        ☐
-                    </span>
-
-                    <span class="task-text">
-                        ${escapeHTML(item)}
-                    </span>
-
-                </div>
-
-            `;
-
-
-            const row =
-                wrapper.querySelector(".item");
-
-
-            row.addEventListener(
-                "click",
-                function() {
-
-                    toggleItem(row);
-
-                }
-            );
-
-
-            element.appendChild(wrapper);
-
-
-            setupSwipeDelete(
-                row,
-                elementId,
-                index
-            );
-
+        if (e.pointerType === "mouse" && e.button !== 0) {
+            return;
         }
-    );
+
+        startX = e.clientX;
+        currentX = e.clientX;
+        dragging = true;
+        pointerId = e.pointerId;
+
+        row.setPointerCapture(e.pointerId);
+        row.classList.add("swiping");
+    });
+
+    row.addEventListener("pointermove", function(e) {
+
+        if (!dragging || e.pointerId !== pointerId) {
+            return;
+        }
+
+        const delta = e.clientX - startX;
+
+        if (delta > 0) {
+            row.style.transform = "translateX(0)";
+            return;
+        }
+
+        currentX = e.clientX;
+
+        const distance = Math.max(delta, -maxSwipe);
+
+        row.style.transform = `translateX(${distance}px)`;
+    });
+
+    row.addEventListener("pointerup", finish);
+
+    row.addEventListener("pointercancel", finish);
+
+    function finish(e) {
+
+        if (!dragging) {
+            return;
+        }
+
+        const delta = currentX - startX;
+
+        dragging = false;
+        row.classList.remove("swiping");
+
+        if (delta <= -threshold) {
+
+            if (onDelete) {
+                onDelete();
+            }
+
+            row.style.transform = "translateX(-100%)";
+
+            setTimeout(function() {
+                removeItemAt(category, index);
+            }, 150);
+
+        } else {
+
+            row.style.transform = "translateX(0)";
+        }
+    }
+}
+function removeItemAt(category, index) {
+
+    if (category === "tasks") {
+        tasks.splice(index, 1);
+    }
+
+    else if (category === "reminders") {
+        reminders.splice(index, 1);
+    }
+
+    else if (category === "shopping") {
+        shopping.splice(index, 1);
+    }
+
+    else if (category === "ideas") {
+        ideas.splice(index, 1);
+    }
+
+    else if (category === "notes") {
+        notes.splice(index, 1);
+    }
+
+    saveData();
+    displayAll();
 }
 function displayReminders() {
 
@@ -2842,26 +2997,16 @@ function displayReminders() {
 /* ========================================
    ADD ITEMS
 ======================================== */
-
 function addItem(category) {
+    const labels = {
+        tasks: "task",
+        reminders: "reminder",
+        shopping: "shopping item",
+        ideas: "idea",
+        notes: "note"
+    };
 
-    let label = "";
-
-    if (category === "tasks") {
-        label = "task";
-    } else if (category === "reminders") {
-        label = "reminder";
-    } else if (category === "shopping") {
-        label = "shopping item";
-    } else if (category === "ideas") {
-        label = "idea";
-    } else if (category === "notes") {
-        label = "note";
-    }
-
-    const text = prompt(
-        "Add a " + label + ":"
-    );
+    const text = prompt(`Add a ${labels[category]}:`);
 
     if (!text || !text.trim()) {
         return;
@@ -2869,238 +3014,39 @@ function addItem(category) {
 
     const value = text.trim();
 
-    if (category === "reminders") {
+    if (category === "tasks") {
+        tasks.push(value);
+    }
+
+    else if (category === "reminders") {
+        const date = getReminderDate(value) || "For later";
 
         reminders.push({
-            date: "For later",
+            date: date,
             text: value
         });
+    }
 
-    } else {
+    else if (category === "shopping") {
+        shopping.push(value);
+    }
 
-        if (category === "tasks") {
-            tasks.push(value);
-        }
+    else if (category === "ideas") {
+        ideas.push(value);
+    }
 
-        if (category === "shopping") {
-            shopping.push(value);
-        }
-
-        if (category === "ideas") {
-            ideas.push(value);
-        }
-
-        if (category === "notes") {
-            notes.push(value);
-        }
+    else if (category === "notes") {
+        notes.push(value);
     }
 
     saveData();
     displayAll();
 }
 
-
 /* ========================================
    SWIPE TO DELETE
 ======================================== */
 
-function setupSwipeDelete(element, category, index) {
-
-    let startX = 0;
-    let currentX = 0;
-    let dragging = false;
-
-    const threshold = 100;
-    const maxSwipe = 180;
-
-
-    function start(x) {
-
-        startX = x;
-        currentX = x;
-        dragging = true;
-
-        element.classList.add("swiping");
-    }
-
-
-    function move(x) {
-
-        if (!dragging) {
-            return;
-        }
-
-        currentX = x;
-
-        let distance =
-            currentX - startX;
-
-        /*
-           Only allow swiping LEFT.
-        */
-
-        if (distance > 0) {
-            distance = 0;
-        }
-
-        distance =
-            Math.max(
-                distance,
-                -maxSwipe
-            );
-
-        element.style.transform =
-            `translateX(${distance}px)`;
-
-    }
-
-
-    function end() {
-
-        if (!dragging) {
-            return;
-        }
-
-        dragging = false;
-
-        element.classList.remove("swiping");
-
-        const distance =
-            currentX - startX;
-
-
-        if (distance <= -threshold) {
-
-            element.style.transform =
-                `translateX(-100%)`;
-
-            setTimeout(
-                function() {
-
-                    if (category === "tasks") {
-                        tasks.splice(index, 1);
-                    }
-
-                    if (category === "shopping") {
-                        shopping.splice(index, 1);
-                    }
-
-                    if (category === "ideas") {
-                        ideas.splice(index, 1);
-                    }
-
-                    if (category === "notes") {
-                        notes.splice(index, 1);
-                    }
-
-                    if (category === "reminders") {
-                        reminders.splice(index, 1);
-                    }
-
-                    saveData();
-                    displayAll();
-
-                },
-                180
-            );
-
-        } else {
-
-            element.style.transform =
-                "translateX(0)";
-
-        }
-
-    }
-
-
-    /* TOUCH */
-
-    element.addEventListener(
-        "touchstart",
-        function(event) {
-
-            if (
-                event.touches &&
-                event.touches.length
-            ) {
-
-                start(
-                    event.touches[0].clientX
-                );
-
-            }
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    element.addEventListener(
-        "touchmove",
-        function(event) {
-
-            if (
-                event.touches &&
-                event.touches.length
-            ) {
-
-                move(
-                    event.touches[0].clientX
-                );
-
-            }
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    element.addEventListener(
-        "touchend",
-        end
-    );
-
-
-    /* MOUSE */
-
-    element.addEventListener(
-        "mousedown",
-        function(event) {
-
-            start(event.clientX);
-
-        }
-    );
-
-
-    window.addEventListener(
-        "mousemove",
-        function(event) {
-
-            if (dragging) {
-                move(event.clientX);
-            }
-
-        }
-    );
-
-
-    window.addEventListener(
-        "mouseup",
-        function() {
-
-            if (dragging) {
-                end();
-            }
-
-        }
-    );
-}
 /* ========================================
    CHECKBOX
 ======================================== */
@@ -3275,312 +3221,71 @@ function setupVoiceRecognition() {
             }
 
         };
+recognition.onresult = function(event) {
 
+    let transcript =
+        event.results[event.results.length - 1][0].transcript;
 
-    recognition.onresult =
-        function(event) {
 
-            const textarea =
-                document.getElementById(
-                    "brainInput"
-                );
+    /*
+       Convert spoken commands into
+       actual line breaks.
+    */
 
-            if (!textarea) {
-                return;
-            }
+    transcript = transcript
+        .replace(/\bnew line\b/gi, "\n")
+        .replace(/\bnewline\b/gi, "\n")
+        .replace(/\bnext line\b/gi, "\n")
+        .replace(/\benter\b/gi, "\n");
 
 
-            let finalText = "";
+    const textarea =
+        document.getElementById("brainInput");
 
 
-            for (
-                let i = event.resultIndex;
-                i < event.results.length;
-                i++
-            ) {
+    if (!textarea) {
+        return;
+    }
 
-                if (
-                    event.results[i].isFinal
-                ) {
 
-                    finalText +=
-                        event.results[i][0]
-                            .transcript;
+    /*
+       Add speech to the existing Brain Dump.
+    */
 
-                }
+    if (textarea.value.trim()) {
 
-            }
+        textarea.value +=
+            " " + transcript;
 
+    } else {
 
-            if (
-                !finalText.trim()
-            ) {
-                return;
-            }
+        textarea.value =
+            transcript;
 
+    }
 
-            let spoken =
-                finalText.trim();
 
+    /*
+       Put cursor at the end.
+    */
 
-            /*
-               BACKSPACE
-            */
+    textarea.focus();
 
-            if (
-                /^backspace$/i.test(spoken) ||
-                /^go back$/i.test(spoken)
-            ) {
+        textarea.setSelectionRange(
+        textarea.value.length,
+        textarea.value.length
+    );
 
-                textarea.value =
-                    textarea.value.slice(
-                        0,
-                        -1
-                    );
+};
 
-                textarea.focus();
 
-                return;
-            }
-
-
-            /*
-               DELETE THAT
-            */
-
-            if (
-                /^delete that$/i.test(spoken) ||
-                /^delete last word$/i.test(spoken)
-            ) {
-
-                textarea.value =
-                    textarea.value
-                        .replace(
-                            /\s*\S+\s*$/,
-                            ""
-                        );
-
-                textarea.focus();
-
-                return;
-            }
-
-
-            /*
-               VOICE NEW LINES
-            */
-
-            spoken =
-                spoken
-
-                    .replace(
-                        /\bnew paragraph\b/gi,
-                        "\n\n"
-                    )
-
-                    .replace(
-                        /\bnew line\b/gi,
-                        "\n"
-                    )
-
-                    .replace(
-                        /\benter\b/gi,
-                        "\n"
-                    );
-
-
-            /*
-               VOICE PUNCTUATION
-            */
-
-            spoken =
-                spoken
-
-                    .replace(
-                        /\bcomma\b/gi,
-                        ","
-                    )
-
-                    .replace(
-                        /\bperiod\b/gi,
-                        "."
-                    )
-
-                    .replace(
-                        /\bfull stop\b/gi,
-                        "."
-                    )
-
-                    .replace(
-                        /\bquestion mark\b/gi,
-                        "?"
-                    )
-
-                    .replace(
-                        /\bexclamation mark\b/gi,
-                        "!"
-                    )
-
-                    .replace(
-                        /\bexclamation point\b/gi,
-                        "!"
-                    )
-
-                    .replace(
-                        /\bcolon\b/gi,
-                        ":"
-                    )
-
-                    .replace(
-                        /\bsemicolon\b/gi,
-                        ";"
-                    )
-
-                    .replace(
-                        /\bhyphen\b/gi,
-                        "-"
-                    )
-
-                    .replace(
-                        /\bdash\b/gi,
-                        "—"
-                    )
-
-                    .replace(
-                        /\bopen parenthesis\b/gi,
-                        "("
-                    )
-
-                    .replace(
-                        /\bclose parenthesis\b/gi,
-                        ")"
-                    );
-
-
-            const existing =
-                textarea.value;
-
-
-            const startsWithPunctuation =
-                /^[,.;:!?)]/.test(
-                    spoken
-                );
-
-
-            const startsWithNewLine =
-                spoken.startsWith(
-                    "\n"
-                );
-
-
-            if (
-                existing.length > 0 &&
-                !startsWithPunctuation &&
-                !startsWithNewLine &&
-                !existing.endsWith("\n")
-            ) {
-
-                textarea.value =
-                    existing +
-                    " " +
-                    spoken;
-
-            } else {
-
-                textarea.value =
-                    existing +
-                    spoken;
-
-            }
-
-
-            textarea.focus();
-
-
-            textarea.selectionStart =
-                textarea.value.length;
-
-            textarea.selectionEnd =
-                textarea.value.length;
-
-        };
-
-
-    recognition.onerror =
-        function(event) {
-
-            console.warn(
-                "Speech recognition error:",
-                event.error
-            );
-
-
-            if (
-                event.error ===
-                    "not-allowed" ||
-                event.error ===
-                    "service-not-allowed"
-            ) {
-
-                alert(
-                    "Microphone permission was denied. " +
-                    "Please allow microphone access in your browser."
-                );
-
-            }
-
-        };
-
-
-    recognition.onend =
-        function() {
-
-            isListening = false;
-
-
-            const micButton =
-                document.getElementById(
-                    "micButton"
-                );
-
-            const voiceStatus =
-                document.getElementById(
-                    "voiceStatus"
-                );
-
-
-            if (micButton) {
-
-                micButton.classList.remove(
-                    "listening"
-                );
-
-                micButton.textContent =
-                    "🎙️";
-
-                micButton.setAttribute(
-                    "aria-label",
-                    "Start voice input"
-                );
-
-            }
-
-
-            if (voiceStatus) {
-
-                voiceStatus.textContent =
-                    "Don't organize it. Just dump it.";
-
-                voiceStatus.classList.remove(
-                    "listening"
-                );
-
-            }
-
-        };
-
+/* CLOSE VOICE RECOGNITION SETUP */
 }
 
+
+/* ========================================
+   VOICE INPUT TOGGLE
+======================================== */
 
 function toggleVoiceInput() {
 
@@ -3693,48 +3398,55 @@ function stopVoiceInput() {
 function setupBrainDumpKeyboard() {
 
     const textarea =
-        document.getElementById(
-            "brainInput"
-        );
+        document.getElementById("brainInput");
 
     if (!textarea) {
         return;
     }
 
+    textarea.addEventListener("keydown", function(e) {
 
-    textarea.addEventListener(
-        "keydown",
-        function(event) {
+        /*
+           SHIFT + ENTER
+           ----------------
+           Allow a normal new line.
+        */
 
-            /*
-               ENTER = ORGANIZE
-            */
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-
-                event.preventDefault();
-
-                stopVoiceInput();
-
-                organizeDump();
-
-                return;
-            }
-
-
-            /*
-               SHIFT + ENTER
-               = normal newline
-            */
-
+        if (e.key === "Enter" && e.shiftKey) {
+            return;
         }
-    );
+
+
+        /*
+           ENTER
+           ----------------
+           Organize the Brain Dump.
+        */
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            organizeDump();
+
+            return;
+        }
+
+
+        /*
+           BACKSPACE
+           ----------------
+           Do absolutely nothing.
+           This allows normal deleting.
+        */
+
+        if (e.key === "Backspace") {
+            return;
+        }
+
+    });
+
 }
-
-
 /* ========================================
    COMING SOON
 ======================================== */
