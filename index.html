@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="icon-192.png">
 
-    <meta name="theme-color" content="#000000">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="apple-touch-icon" href="icon-192.png">
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Brain Dumpz</title>
+<title>Brain Dump</title>
 
 <style>
 
-/* =========================================================
+/* ================================
    RESET
-========================================================= */
+================================ */
 
 * {
     box-sizing: border-box;
@@ -44,15 +36,14 @@ body {
 }
 
 button,
-textarea,
-input {
+textarea {
     font-family: inherit;
 }
 
 
-/* =========================================================
-   APP / PAGE SLIDER
-========================================================= */
+/* ================================
+   APP
+================================ */
 
 .app {
     width: 100%;
@@ -62,37 +53,28 @@ input {
 
 .page-window {
     width: 100%;
-    min-height: 100vh;
     overflow: hidden;
+    min-height: 100vh;
 }
 
 .page-slider {
     width: 300%;
     min-height: 100vh;
-
     display: flex;
-
-    transition:
-        transform 0.45s cubic-bezier(
-            0.22,
-            1,
-            0.36,
-            1
-        );
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .page {
     width: 33.333333%;
     min-height: 100vh;
     flex-shrink: 0;
-
     padding: 30px 30px 110px;
 }
 
 
-/* =========================================================
-   BRAIN DUMP PAGE
-========================================================= */
+/* ================================
+   BRAIN DUMP
+================================ */
 
 .dump-page {
     display: flex;
@@ -137,11 +119,6 @@ input {
     font-size: 12px;
 }
 
-
-/* =========================================================
-   DUMP BOX
-========================================================= */
-
 .dump-box {
     background: #111;
     border: 1px solid #292929;
@@ -156,33 +133,113 @@ input {
 textarea {
     width: 100%;
     min-height: 260px;
-
     resize: vertical;
-
     background: transparent;
     border: none;
     outline: none;
-
     color: white;
-
     font-size: 18px;
     line-height: 1.6;
-
     padding-right: 55px;
 }
 
 textarea::placeholder {
     color: #555;
 }
+/* ================================
+   SWIPE TO DELETE
+================================ */
 
+.item-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
 
-/* =========================================================
-   MICROPHONE
-========================================================= */
+.delete-background {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding-right: 22px;
+
+    background: #4a1111;
+    color: #ff5555;
+
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    border-radius: 12px;
+
+    pointer-events: none;
+}
+
+.item {
+    position: relative;
+    z-index: 2;
+
+    touch-action: pan-y;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+}
+
+.item.swiping {
+    transition: none;
+}
+/* ================================
+   CATEGORY ADD BUTTON
+================================ */
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.category-header h3 {
+    margin: 0;
+}
+
+.add-item {
+    background: transparent;
+    color: #888;
+    border: 1px solid #333;
+    border-radius: 8px;
+
+    padding: 7px 11px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.add-item:hover {
+    background: #181818;
+    color: white;
+    border-color: #555;
+}
+
+/* ================================
+   MIC
+================================ */
 
 .mic-button {
     position: absolute;
-
     right: 10px;
     bottom: 10px;
 
@@ -202,7 +259,6 @@ textarea::placeholder {
     justify-content: center;
 
     font-size: 18px;
-
     cursor: pointer;
 
     transition:
@@ -214,6 +270,7 @@ textarea::placeholder {
 .mic-button:hover {
     background: #222;
     border-color: #555;
+    transform: none;
 }
 
 .mic-button:active {
@@ -223,31 +280,22 @@ textarea::placeholder {
 .mic-button.listening {
     background: #ff3b3b;
     border-color: #ff3b3b;
-
-    animation:
-        micPulse 1.2s infinite;
+    animation: micPulse 1.2s infinite;
 }
 
 @keyframes micPulse {
 
     0% {
-        box-shadow:
-            0 0 0 0
-            rgba(255,59,59,0.5);
+        box-shadow: 0 0 0 0 rgba(255,59,59,0.5);
     }
 
     70% {
-        box-shadow:
-            0 0 0 12px
-            rgba(255,59,59,0);
+        box-shadow: 0 0 0 12px rgba(255,59,59,0);
     }
 
     100% {
-        box-shadow:
-            0 0 0 0
-            rgba(255,59,59,0);
+        box-shadow: 0 0 0 0 rgba(255,59,59,0);
     }
-
 }
 
 #voiceStatus.listening {
@@ -255,17 +303,15 @@ textarea::placeholder {
 }
 
 
-/* =========================================================
-   DUMP BUTTON AREA
-========================================================= */
+/* ================================
+   BOTTOM OF DUMP
+================================ */
 
 .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     gap: 15px;
-
     margin-top: 15px;
 }
 
@@ -276,19 +322,13 @@ textarea::placeholder {
 
 .organize-button {
     border: none;
-
     background: white;
     color: black;
-
     padding: 13px 24px;
-
     border-radius: 10px;
-
     font-size: 15px;
     font-weight: bold;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
@@ -297,14 +337,10 @@ textarea::placeholder {
     transform: translateY(-2px);
 }
 
-.organize-button:active {
-    transform: scale(0.98);
-}
 
-
-/* =========================================================
+/* ================================
    TASK PAGE
-========================================================= */
+================================ */
 
 .tasks-page {
     max-width: 850px;
@@ -329,271 +365,23 @@ textarea::placeholder {
     display: block;
 }
 
-
-/* =========================================================
-   CATEGORY BOXES
-========================================================= */
-
 .section {
     background: #111;
-
     border: 1px solid #292929;
-
     border-radius: 15px;
-
     padding: 20px;
-
-    margin-bottom: 12px;
-
-    overflow: hidden;
-}
-
-.category-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    width: 100%;
-
-    min-height: 28px;
-
     margin-bottom: 12px;
 }
 
-.category-header h3 {
-    margin: 0;
-
-    color: #fff;
-
+.section h2 {
     font-size: 16px;
-
-    font-weight: 600;
+    margin-bottom: 12px;
 }
-
-.add-item {
-    color: #888;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        color 0.15s ease,
-        opacity 0.15s ease;
-}
-
-.add-item:hover {
-    color: #fff;
-}
-
-
-/* =========================================================
-   EMPTY CATEGORY
-========================================================= */
-
-.empty-message {
-    color: #555;
-
-    font-size: 13px;
-
-    padding: 8px 0;
-}
-
-
-/* =========================================================
-   SWIPE / DRAG TO DELETE
-========================================================= */
-
-.item-row {
-    position: relative;
-
-    width: 100%;
-
-    overflow: hidden;
-
-    touch-action: pan-y;
-
-    user-select: none;
-
-    border-bottom: 1px solid #222;
-}
-
-.item-row:last-child {
-    border-bottom: none;
-}
-
-.item-delete-bg {
-    position: absolute;
-
-    inset: 0;
-
-    background: #8b0000;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    padding-right: 22px;
-
-    color: white;
-
-    font-size: 12px;
-
-    font-weight: bold;
-
-    z-index: 1;
-
-    opacity: 0;
-
-    transition: opacity 0.15s ease;
-}
-
-.item-row.swiping .item-delete-bg {
-    opacity: 1;
-}
-
-.item-content {
-    position: relative;
-
-    z-index: 2;
-
-    background: #111;
-
-    transform: translateX(0);
-
-    transition:
-        transform 0.2s ease;
-
-    will-change: transform;
-}
-
-.item-row.removing .item-content {
-    transform: translateX(-100%);
-
-    transition:
-        transform 0.25s ease;
-}
-
-.item-row.removing {
-    opacity: 0;
-
-    transition:
-        opacity 0.25s ease;
-}
-
-
-/* =========================================================
-   CHECKBOX ITEMS
-========================================================= */
-
-.checkbox-label {
-    width: 100%;
-
-    min-height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-    padding: 10px 4px;
-
-    cursor: pointer;
-}
-
-.checkbox-label input {
-    position: absolute;
-
-    opacity: 0;
-
-    pointer-events: none;
-}
-
-.checkmark {
-    width: 20px;
-    height: 20px;
-
-    min-width: 20px;
-
-    border: 1px solid #555;
-
-    border-radius: 5px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    transition:
-        background 0.15s ease,
-        border-color 0.15s ease;
-}
-
-.checkbox-label input:checked + .checkmark {
-    background: #9b5cff;
-
-    border-color: #9b5cff;
-}
-
-.checkbox-label input:checked + .checkmark::after {
-    content: "✓";
-
-    color: white;
-
-    font-size: 13px;
-
-    font-weight: bold;
-}
-
-.item-text {
-    color: #ccc;
-
-    font-size: 14px;
-
-    line-height: 1.4;
-
-    word-break: break-word;
-
-    transition:
-        color 0.2s ease,
-        text-decoration 0.2s ease;
-}
-
-.checkbox-label input:checked ~ .item-text {
-    color: #777;
-
-    text-decoration: line-through;
-
-    text-decoration-color: #ff3b3b;
-
-    text-decoration-thickness: 2px;
-}
-
-
-/* =========================================================
-   REMINDERS
-========================================================= */
 
 .item {
     color: #ccc;
-
     padding: 10px 0;
-
     border-bottom: 1px solid #222;
-
-    font-size: 14px;
-
-    line-height: 1.5;
 }
 
 .item:last-child {
@@ -601,133 +389,109 @@ textarea::placeholder {
 }
 
 
-/* =========================================================
+/* ================================
+   CLICKABLE TASKS
+================================ */
+
+.task-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s ease;
+}
+
+.task-item:hover {
+    background: #181818;
+    padding-left: 8px;
+}
+
+.checkbox {
+    color: white;
+    font-size: 18px;
+    min-width: 20px;
+}
+
+.task-text {
+    transition: 0.2s ease;
+}
+
+.task-item.completed .checkbox {
+    color: #9b5cff;
+}
+
+.task-item.completed .task-text {
+    color: #888;
+    text-decoration: line-through;
+    text-decoration-color: #ff3b3b;
+    text-decoration-thickness: 2px;
+}
+
+
+/* ================================
    CLEAR ALL
-========================================================= */
+================================ */
 
 .clear-all-container {
     display: flex;
-
     justify-content: center;
-
     margin-top: 35px;
-
     margin-bottom: 30px;
 }
 
 .clear-all-button {
     background: transparent;
-
     color: #777;
-
     border: 1px solid #333;
-
     padding: 10px 22px;
-
     border-radius: 10px;
-
     font-size: 12px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
 .clear-all-button:hover {
     color: #ff3b3b;
-
     border-color: #ff3b3b;
-
     background: #160909;
 }
 
 
-/* =========================================================
-   SAVE LIST
-========================================================= */
-
-.save-list-container {
-    display: flex;
-
-    justify-content: center;
-
-    margin-top: 25px;
-}
-
-.save-list-button {
-    background: transparent;
-
-    color: #aaa;
-
-    border: 1px solid #333;
-
-    padding: 11px 20px;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-size: 12px;
-
-    font-weight: bold;
-}
-
-.save-list-button:hover {
-    background: #181818;
-
-    color: white;
-}
-
-
-/* =========================================================
+/* ================================
    MORE PAGE
-========================================================= */
+================================ */
 
 .more-page {
     background: #000;
-
     max-width: none;
 }
 
 .more-page-inner {
     width: 100%;
-
     max-width: 850px;
-
     margin: 0 auto;
 }
 
 .more-menu {
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
 }
 
 .more-menu-item {
     width: 100%;
-
     background: #111;
-
     color: white;
-
     border: 1px solid #292929;
-
     border-radius: 15px;
-
     padding: 18px;
 
     display: flex;
-
     align-items: center;
-
     gap: 14px;
 
     font-size: 16px;
-
     text-align: left;
-
     cursor: pointer;
 
     transition: 0.2s ease;
@@ -735,7 +499,6 @@ textarea::placeholder {
 
 .more-menu-item:hover {
     background: #181818;
-
     border-color: #444;
 }
 
@@ -744,9 +507,9 @@ textarea::placeholder {
 }
 
 
-/* =========================================================
+/* ================================
    SAVED LISTS
-========================================================= */
+================================ */
 
 .saved-lists-header {
     margin-bottom: 25px;
@@ -754,53 +517,38 @@ textarea::placeholder {
 
 .back-more-button {
     background: transparent;
-
     color: #aaa;
-
     border: 1px solid #333;
-
     padding: 10px 16px;
-
     border-radius: 10px;
-
     cursor: pointer;
-
     margin-bottom: 20px;
 }
 
 .back-more-button:hover {
     background: #181818;
-
     color: white;
 }
 
 .saved-lists-header h2 {
     font-size: 28px;
-
     margin-bottom: 5px;
 }
 
 .saved-lists-header p {
     color: #666;
-
     font-size: 13px;
 }
 
 .saved-list-card {
     background: #111;
-
     border: 1px solid #292929;
-
     border-radius: 15px;
-
     padding: 18px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 15px;
 
     margin-bottom: 10px;
@@ -812,54 +560,40 @@ textarea::placeholder {
 
 .saved-list-name {
     font-size: 16px;
-
     font-weight: bold;
-
     word-break: break-word;
 }
 
 .saved-list-date {
     color: #666;
-
     font-size: 12px;
-
     margin-top: 5px;
 }
 
 .saved-list-buttons {
     display: flex;
-
     gap: 8px;
-
     flex-shrink: 0;
 }
 
 .load-list-button,
 .delete-list-button {
     border: 1px solid #333;
-
     padding: 9px 13px;
-
     border-radius: 8px;
-
     font-size: 11px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
 .load-list-button {
     background: white;
-
     color: black;
 }
 
 .delete-list-button {
     background: transparent;
-
     color: #ff5555;
-
     border-color: #4a2020;
 }
 
@@ -869,85 +603,99 @@ textarea::placeholder {
 
 .no-saved-lists {
     background: #111;
-
     border: 1px solid #292929;
-
     border-radius: 15px;
-
     padding: 25px;
-
     color: #666;
-
     text-align: center;
 }
 
 
-/* =========================================================
-   BOTTOM NAVIGATION
-========================================================= */
+/* ================================
+   SAVE LIST BUTTON
+================================ */
+
+.save-list-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.save-list-button {
+    background: transparent;
+    color: #aaa;
+    border: 1px solid #333;
+    padding: 11px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.save-list-button:hover {
+    background: #181818;
+    color: white;
+}
+
+
+/* ================================
+   BOTTOM NAV
+================================ */
+
+/* ================================
+   BOTTOM NAV
+================================ */
 
 .bottom-nav {
     position: fixed;
 
     left: 50%;
-
     bottom: 18px;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
-    width:
-        min(
-            500px,
-            calc(100% - 30px)
-        );
-
+    width: min(500px, calc(100vw - 30px));
     height: 68px;
 
-    background:
-        rgba(
-            17,
-            17,
-            17,
-            0.96
-        );
+    background: rgba(17, 17, 17, 0.96);
 
     border: 1px solid #292929;
-
     border-radius: 22px;
 
     display: flex;
-
     align-items: center;
+    justify-content: space-between;
 
-    justify-content: space-around;
-
-    padding: 0 35px;
+    padding: 0 28px;
 
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
     z-index: 9999;
+    overflow: visible;
 }
+
+
+/* NAV BUTTONS */
 
 .nav-button {
     background: transparent;
-
     color: #777;
 
     border: none;
+    outline: none;
 
     width: 70px;
-
     height: 60px;
 
     padding: 0;
 
-    display: flex;
+    flex: 0 0 70px;
 
+    display: flex;
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 4px;
@@ -959,28 +707,23 @@ textarea::placeholder {
 
 .nav-button:hover {
     background: transparent;
-
     color: white;
+    transform: none;
 }
 
-.nav-button span {
+.nav-icon {
     font-size: 21px;
-
     line-height: 1;
 }
 
-.nav-button small {
+.nav-label {
     font-size: 9px;
-
     font-weight: bold;
-
     letter-spacing: 0.5px;
 }
 
 
-/* =========================================================
-   CENTER HOME LOGO BUTTON
-========================================================= */
+/* CENTER BDz BUTTON */
 
 .nav-center {
     width: 66px;
@@ -997,37 +740,30 @@ textarea::placeholder {
     border: 1px solid #3a3a3a;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     cursor: pointer;
 
-    flex-shrink: 0;
+    flex: 0 0 66px;
 
     transition:
         transform 0.15s ease,
         background 0.15s ease,
         border-color 0.15s ease;
 
-    box-shadow:
-        0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+
+    position: relative;
+    z-index: 10000;
+
+    outline: none;
 }
 
 .nav-center:hover {
-    background: #181818;
-
+    background: #111;
     border-color: #555;
-
-    transform:
-        translateY(-3px);
-}
-
-.nav-center:active {
-    transform:
-        translateY(-1px)
-        scale(0.96);
+    transform: translateY(-3px);
 }
 
 .nav-center img {
@@ -1037,105 +773,106 @@ textarea::placeholder {
     object-fit: contain;
 
     border-radius: 50%;
-
-    display: block;
 }
 
-
-/* =========================================================
+/* ================================
    MOBILE
-========================================================= */
+================================ */
 
 @media (max-width: 600px) {
 
+    /* Keep pages aligned to the iPhone screen */
     .page {
+        width: 100vw;
+        min-width: 100vw;
+        max-width: 100vw;
+        flex: 0 0 100vw;
+
         padding: 20px 15px 105px;
     }
 
-    .logo {
-        width: 85px;
-        height: 85px;
+    .page-window {
+        width: 100vw;
+        max-width: 100vw;
+        overflow: hidden;
     }
 
-    .bottom {
-        flex-direction: column;
-
-        align-items: stretch;
+    .page-slider {
+        width: 300vw;
+        min-width: 300vw;
     }
 
-    .organize-button {
-        width: 100%;
-    }
-
+    /* iPhone navigation */
     .bottom-nav {
-        left: 12px;
-        right: 12px;
-
-        bottom: 12px;
+        left: 8px;
+        right: 8px;
 
         width: auto;
+        max-width: none;
+
+        bottom: calc(10px + env(safe-area-inset-bottom));
+
+        transform: none;
 
         height: 64px;
 
-        padding: 0 25px;
+        padding: 0 10px;
 
-        border-radius: 18px;
+        box-sizing: border-box;
+    }
+
+    .nav-button {
+        width: 58px;
+        min-width: 58px;
+        flex: 0 0 58px;
+        height: 58px;
     }
 
     .nav-center {
         width: 62px;
         height: 62px;
 
-        padding: 5px;
+        min-width: 62px;
+        flex: 0 0 62px;
 
         margin-top: -22px;
+        padding: 5px;
+    }
+}
+
+
+/* ================================
+   VERY SMALL PHONES
+================================ */
+
+@media (max-width: 380px) {
+
+    .bottom-nav {
+        left: 7px;
+        right: 7px;
+
+        width: auto;
+
+        padding-left: 7px;
+        padding-right: 7px;
     }
 
     .nav-button {
-        width: 65px;
+        width: 52px;
+        min-width: 52px;
+        flex-basis: 52px;
+    }
+
+    .nav-center {
+        width: 58px;
         height: 58px;
+
+        min-width: 58px;
+        flex-basis: 58px;
     }
-
-    .saved-list-card {
-        flex-direction: column;
-
-        align-items: stretch;
-    }
-
-    .saved-list-buttons {
-        width: 100%;
-    }
-
-    .load-list-button,
-    .delete-list-button {
-        flex: 1;
-    }
-
-    .category-header h3 {
-        font-size: 15px;
-    }
-
-    .add-item {
-        font-size: 13px;
-    }
-
-}
-
-
-/* =========================================================
-   TOUCH / MOBILE SWIPE
-========================================================= */
-
-@media (hover: none) {
-
-    .item-row {
-        touch-action: pan-y;
-    }
-
 }
 
 </style>
-
 </head>
 
 
@@ -1150,18 +887,15 @@ textarea::placeholder {
             id="pageSlider"
         >
 
-
-            <!-- =================================================
+            <!-- =================================
                  MY TASKS
-            ================================================== -->
+            ================================== -->
 
             <section class="page tasks-page">
 
                 <div class="page-title">
 
-                    <h2>
-                        My Tasks
-                    </h2>
+                    <h2>My Tasks</h2>
 
                     <p>
                         Everything your brain dumped.
@@ -1170,133 +904,52 @@ textarea::placeholder {
                 </div>
 
 
-                <div
-                    id="results"
-                    class="results"
-                >
-
-
-                    <!-- TO DO -->
+                <div id="results" class="results">
 
                     <div class="section">
 
-                        <div class="category-header">
-
-                            <h3>
-                                ✅ TO DO
-                            </h3>
-
-                            <span
-                                class="add-item"
-                                onclick="addItemToCategory('tasks')"
-                            >
-                                + Add
-                            </span>
-
-                        </div>
+                        <h2>✅ TO DO</h2>
 
                         <div id="tasks"></div>
 
                     </div>
 
 
-                    <!-- REMINDERS -->
-
                     <div class="section">
 
-                        <div class="category-header">
-
-                            <h3>
-                                🔔 REMINDERS
-                            </h3>
-
-                            <span
-                                class="add-item"
-                                onclick="addItemToCategory('reminders')"
-                            >
-                                + Add
-                            </span>
-
-                        </div>
+                        <h2>🔔 REMINDERS</h2>
 
                         <div id="reminders"></div>
 
                     </div>
 
 
-                    <!-- SHOPPING -->
-
                     <div class="section">
 
-                        <div class="category-header">
-
-                            <h3>
-                                🛒 SHOPPING
-                            </h3>
-
-                            <span
-                                class="add-item"
-                                onclick="addItemToCategory('shopping')"
-                            >
-                                + Add
-                            </span>
-
-                        </div>
+                        <h2>🛒 SHOPPING</h2>
 
                         <div id="shopping"></div>
 
                     </div>
 
 
-                    <!-- IDEAS -->
-
                     <div class="section">
 
-                        <div class="category-header">
-
-                            <h3>
-                                💡 IDEAS
-                            </h3>
-
-                            <span
-                                class="add-item"
-                                onclick="addItemToCategory('ideas')"
-                            >
-                                + Add
-                            </span>
-
-                        </div>
+                        <h2>💡 IDEAS</h2>
 
                         <div id="ideas"></div>
 
                     </div>
 
 
-                    <!-- NOTES -->
-
                     <div class="section">
 
-                        <div class="category-header">
-
-                            <h3>
-                                📝 NOTES
-                            </h3>
-
-                            <span
-                                class="add-item"
-                                onclick="addItemToCategory('notes')"
-                            >
-                                + Add
-                            </span>
-
-                        </div>
+                        <h2>📝 NOTES</h2>
 
                         <div id="notes"></div>
 
                     </div>
 
-
-                    <!-- SAVE -->
 
                     <div class="save-list-container">
 
@@ -1309,8 +962,6 @@ textarea::placeholder {
 
                     </div>
 
-
-                    <!-- CLEAR -->
 
                     <div class="clear-all-container">
 
@@ -1328,9 +979,9 @@ textarea::placeholder {
             </section>
 
 
-            <!-- =================================================
+            <!-- =================================
                  BRAIN DUMP
-            ================================================== -->
+            ================================== -->
 
             <section class="page dump-page">
 
@@ -1341,17 +992,15 @@ textarea::placeholder {
                         <img
                             src="BDz.png"
                             class="logo"
-                            alt="Brain Dumpz"
+                            alt="Brain Dump"
                         >
 
                         <div class="brand-text">
 
-                            <h1>
-                                Brain Dumpz
-                            </h1>
+                            <h1>Brain Dump</h1>
 
                             <p class="tagline">
-                                Dump it. Organize it. Get it done.
+                                Get it out of your head.
                             </p>
 
                         </div>
@@ -1410,9 +1059,9 @@ textarea::placeholder {
             </section>
 
 
-            <!-- =================================================
+            <!-- =================================
                  MORE
-            ================================================== -->
+            ================================== -->
 
             <section class="page more-page">
 
@@ -1422,9 +1071,7 @@ textarea::placeholder {
 
                         <div class="page-title">
 
-                            <h2>
-                                MORE
-                            </h2>
+                            <h2>MORE</h2>
 
                             <p>
                                 More Brain Dump options
@@ -1439,15 +1086,8 @@ textarea::placeholder {
                                 class="more-menu-item"
                                 onclick="openSavedLists()"
                             >
-
-                                <span>
-                                    📋
-                                </span>
-
-                                <span>
-                                    Saved Lists
-                                </span>
-
+                                <span>📋</span>
+                                <span>Saved Lists</span>
                             </button>
 
 
@@ -1455,15 +1095,8 @@ textarea::placeholder {
                                 class="more-menu-item"
                                 onclick="comingSoon('Settings')"
                             >
-
-                                <span>
-                                    ⚙️
-                                </span>
-
-                                <span>
-                                    Settings
-                                </span>
-
+                                <span>⚙️</span>
+                                <span>Settings</span>
                             </button>
 
 
@@ -1471,15 +1104,8 @@ textarea::placeholder {
                                 class="more-menu-item"
                                 onclick="comingSoon('About')"
                             >
-
-                                <span>
-                                    ℹ️
-                                </span>
-
-                                <span>
-                                    About
-                                </span>
-
+                                <span>ℹ️</span>
+                                <span>About</span>
                             </button>
 
                         </div>
@@ -1495,9 +1121,9 @@ textarea::placeholder {
     </div>
 
 
-    <!-- =================================================
-         BOTTOM NAV
-    ================================================== -->
+    <!-- =================================
+         BOTTOM NAVIGATION
+    ================================== -->
 
     <nav class="bottom-nav">
 
@@ -1505,32 +1131,27 @@ textarea::placeholder {
             type="button"
             class="nav-button"
             onclick="showPage('tasks')"
-            aria-label="My Tasks"
         >
 
-            <span>
-                ☑
-            </span>
+            <span class="nav-icon">✓</span>
 
-            <small>
-                MY TASKS
-            </small>
+            <span class="nav-label">
+                TASKS
+            </span>
 
         </button>
 
-
-        <!-- CENTER HOME BUTTON -->
 
         <button
             type="button"
             class="nav-center"
             onclick="showPage('dump')"
-            aria-label="Brain Dumpz Home"
+            aria-label="Brain Dump"
         >
 
             <img
-                src="./BDz.png"
-                alt="Brain Dumpz"
+                src="BDz.png"
+                alt="Brain Dump"
             >
 
         </button>
@@ -1540,16 +1161,13 @@ textarea::placeholder {
             type="button"
             class="nav-button"
             onclick="showPage('more')"
-            aria-label="More"
         >
 
-            <span>
-                ☰
-            </span>
+            <span class="nav-icon">☷</span>
 
-            <small>
+            <span class="nav-label">
                 MORE
-            </small>
+            </span>
 
         </button>
 
@@ -1560,24 +1178,25 @@ textarea::placeholder {
 
 <script>
 
-/* =========================================================
+/* ========================================
    DATA
-========================================================= */
+======================================== */
 
 let tasks = [];
 let reminders = [];
 let shopping = [];
 let ideas = [];
 let notes = [];
+
 let savedLists = [];
 
 let recognition = null;
 let isListening = false;
 
 
-/* =========================================================
+/* ========================================
    PAGE NAVIGATION
-========================================================= */
+======================================== */
 
 function showPage(page) {
 
@@ -1589,32 +1208,25 @@ function showPage(page) {
     }
 
     if (page === "tasks") {
-
         slider.style.transform =
             "translateX(0%)";
-
     }
 
-    else if (page === "dump") {
-
+    if (page === "dump") {
         slider.style.transform =
             "translateX(-33.333333%)";
-
     }
 
-    else if (page === "more") {
-
+    if (page === "more") {
         slider.style.transform =
             "translateX(-66.666666%)";
-
     }
-
 }
 
 
-/* =========================================================
-   LOCAL DATA
-========================================================= */
+/* ========================================
+   NORMAL DATA
+======================================== */
 
 function loadData() {
 
@@ -1622,11 +1234,8 @@ function loadData() {
         localStorage.getItem("brainDumpData");
 
     if (!savedData) {
-
         displayAll();
-
         return;
-
     }
 
     try {
@@ -1659,49 +1268,45 @@ function loadData() {
                 ? data.notes
                 : [];
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "Could not load Brain Dump data.",
             error
         );
 
-        tasks = [];
-        reminders = [];
-        shopping = [];
-        ideas = [];
-        notes = [];
-
     }
 
     displayAll();
-
 }
 
 
 function saveData() {
 
     const data = {
-        tasks,
-        reminders,
-        shopping,
-        ideas,
-        notes
+
+        tasks: tasks,
+
+        reminders: reminders,
+
+        shopping: shopping,
+
+        ideas: ideas,
+
+        notes: notes
+
     };
 
     localStorage.setItem(
         "brainDumpData",
         JSON.stringify(data)
     );
-
 }
 
 
-/* =========================================================
+/* ========================================
    SAVED LISTS
-========================================================= */
+======================================== */
 
 function loadSavedListsData() {
 
@@ -1715,7 +1320,6 @@ function loadSavedListsData() {
         savedLists = [];
 
         return;
-
     }
 
     try {
@@ -1723,9 +1327,7 @@ function loadSavedListsData() {
         savedLists =
             JSON.parse(saved) || [];
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "Could not load saved lists.",
@@ -1733,9 +1335,7 @@ function loadSavedListsData() {
         );
 
         savedLists = [];
-
     }
-
 }
 
 
@@ -1745,7 +1345,6 @@ function saveSavedListsData() {
         "brainDumpSavedLists",
         JSON.stringify(savedLists)
     );
-
 }
 
 
@@ -1766,7 +1365,6 @@ function saveCurrentList() {
         );
 
         return;
-
     }
 
     const listName =
@@ -1778,9 +1376,7 @@ function saveCurrentList() {
         !listName ||
         !listName.trim()
     ) {
-
         return;
-
     }
 
     const newList = {
@@ -1811,7 +1407,6 @@ function saveCurrentList() {
     alert(
         `"${newList.name}" has been saved!`
     );
-
 }
 
 
@@ -1840,9 +1435,7 @@ function openSavedLists() {
                 ← BACK
             </button>
 
-            <h2>
-                Saved Lists
-            </h2>
+            <h2>Saved Lists</h2>
 
             <p>
                 Your saved Brain Dump lists
@@ -1855,7 +1448,6 @@ function openSavedLists() {
     `;
 
     displaySavedLists();
-
 }
 
 
@@ -1874,9 +1466,7 @@ function closeSavedLists() {
 
         <div class="page-title">
 
-            <h2>
-                MORE
-            </h2>
+            <h2>MORE</h2>
 
             <p>
                 More Brain Dump options
@@ -1913,7 +1503,6 @@ function closeSavedLists() {
         </div>
 
     `;
-
 }
 
 
@@ -1939,50 +1528,48 @@ function displaySavedLists() {
         `;
 
         return;
-
     }
 
     container.innerHTML =
-        savedLists
-            .map(list => `
+        savedLists.map(list => `
 
-                <div class="saved-list-card">
+            <div class="saved-list-card">
 
-                    <div class="saved-list-info">
+                <div class="saved-list-info">
 
-                        <div class="saved-list-name">
-                            ${escapeHTML(list.name)}
-                        </div>
-
-                        <div class="saved-list-date">
-                            Saved ${escapeHTML(list.date)}
-                        </div>
-
+                    <div class="saved-list-name">
+                        ${escapeHTML(list.name)}
                     </div>
 
-                    <div class="saved-list-buttons">
-
-                        <button
-                            class="load-list-button"
-                            onclick="loadSavedList(${list.id})"
-                        >
-                            LOAD
-                        </button>
-
-                        <button
-                            class="delete-list-button"
-                            onclick="deleteSavedList(${list.id})"
-                        >
-                            DELETE
-                        </button>
-
+                    <div class="saved-list-date">
+                        Saved ${escapeHTML(list.date)}
                     </div>
 
                 </div>
 
-            `)
-            .join("");
 
+                <div class="saved-list-buttons">
+
+                    <button
+                        class="load-list-button"
+                        onclick="loadSavedList(${list.id})"
+                    >
+                        LOAD
+                    </button>
+
+
+                    <button
+                        class="delete-list-button"
+                        onclick="deleteSavedList(${list.id})"
+                    >
+                        DELETE
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
 }
 
 
@@ -2001,7 +1588,6 @@ function loadSavedList(id) {
         );
 
         return;
-
     }
 
     const confirmed =
@@ -2040,7 +1626,6 @@ function loadSavedList(id) {
     alert(
         `"${list.name}" loaded.`
     );
-
 }
 
 
@@ -2075,20 +1660,21 @@ function deleteSavedList(id) {
     saveSavedListsData();
 
     displaySavedLists();
-
 }
 
 
-/* =========================================================
+/* ========================================
    ORGANIZER
-========================================================= */
+======================================== */
 
 function organizeDump() {
 
     stopVoiceInput();
 
     const textarea =
-        document.getElementById("brainInput");
+        document.getElementById(
+            "brainInput"
+        );
 
     if (!textarea) {
         return;
@@ -2104,7 +1690,6 @@ function organizeDump() {
         );
 
         return;
-
     }
 
     const thoughts =
@@ -2120,9 +1705,11 @@ function organizeDump() {
         }
 
 
-        /* TASK */
+        /* TASKS */
 
-        if (item.section === "tasks") {
+        if (
+            item.section === "tasks"
+        ) {
 
             if (
                 !tasks.some(
@@ -2133,13 +1720,15 @@ function organizeDump() {
             ) {
 
                 tasks.push(thought);
-
             }
+
 
             if (item.date) {
 
                 const reminderDate =
-                    getReminderDate(item.date);
+                    getReminderDate(
+                        item.date
+                    );
 
                 if (reminderDate) {
 
@@ -2153,13 +1742,14 @@ function organizeDump() {
             }
 
             return;
-
         }
 
 
-        /* REMINDER */
+        /* REMINDERS */
 
-        if (item.section === "reminders") {
+        if (
+            item.section === "reminders"
+        ) {
 
             const reminderDate =
                 item.date
@@ -2172,13 +1762,14 @@ function organizeDump() {
             );
 
             return;
-
         }
 
 
         /* SHOPPING */
 
-        if (item.section === "shopping") {
+        if (
+            item.section === "shopping"
+        ) {
 
             if (
                 !shopping.some(
@@ -2193,13 +1784,14 @@ function organizeDump() {
             }
 
             return;
-
         }
 
 
-        /* IDEA */
+        /* IDEAS */
 
-        if (item.section === "ideas") {
+        if (
+            item.section === "ideas"
+        ) {
 
             if (
                 !ideas.some(
@@ -2214,13 +1806,14 @@ function organizeDump() {
             }
 
             return;
-
         }
 
 
-        /* NOTE */
+        /* NOTES */
 
-        if (item.section === "notes") {
+        if (
+            item.section === "notes"
+        ) {
 
             if (
                 !notes.some(
@@ -2238,6 +1831,7 @@ function organizeDump() {
 
     });
 
+
     saveData();
 
     displayAll();
@@ -2245,13 +1839,12 @@ function organizeDump() {
     textarea.value = "";
 
     showPage("tasks");
-
 }
 
 
-/* =========================================================
+/* ========================================
    PARSER
-========================================================= */
+======================================== */
 
 function parseBrainDump(input) {
 
@@ -2264,14 +1857,19 @@ function parseBrainDump(input) {
 
 
     /*
-       Turn commas into separate lines.
-       This keeps the parser simple while still
-       supporting normal brain dumps.
+       Commas are boundaries.
     */
 
     text =
-        text.replace(/,/g, "\n");
+        text.replace(
+            /,/g,
+            "\n"
+        );
 
+
+    /*
+       Split obvious sentence boundaries.
+    */
 
     const lines =
         text
@@ -2281,7 +1879,7 @@ function parseBrainDump(input) {
 
 
     const trigger =
-        /\b(?:i need to|i have to|i gotta|i should|remind me to|remember to|video idea|content idea|shopping list|grocery list|shopping|groceries|lista de compras|lista de compra|buy|buying|purchase|pick up|pickup|order|comprar|compra|hacer|haz|make|finish|complete|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe record|note|notes|nota|notas|add to my notes|save this|terminar|termina|limpiar|limpia|lavar|lava|llamar|llama|grabar|graba|editar|subir|crear|arreglar|reparar|construir|pagar|paga|organizar|revisar|visitar|ir|trabajar)\b/gi;
+        /\b(?:i need to|i have to|i gotta|i should|remind me to|remember to|video idea|content idea|buy|buying|purchase|pick up|pickup|order|make|finish|complete|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|maybe record|note|notes)\b/gi;
 
 
     function splitLine(line) {
@@ -2300,13 +1898,17 @@ function parseBrainDump(input) {
 
         trigger.lastIndex = 0;
 
-        if (matches.length <= 1) {
+        if (
+            matches.length <= 1
+        ) {
 
             return [line];
 
         }
 
+
         const result = [];
+
 
         for (
             let i = 0;
@@ -2318,7 +1920,8 @@ function parseBrainDump(input) {
                 matches[i];
 
             const end =
-                i + 1 < matches.length
+                i + 1 <
+                matches.length
                     ? matches[i + 1]
                     : line.length;
 
@@ -2328,14 +1931,19 @@ function parseBrainDump(input) {
                     .trim();
 
             if (piece) {
-
                 result.push(piece);
-
             }
 
         }
 
-        if (matches[0] > 0) {
+
+        /*
+           Preserve text before first trigger.
+        */
+
+        if (
+            matches[0] > 0
+        ) {
 
             const before =
                 line
@@ -2346,20 +1954,16 @@ function parseBrainDump(input) {
                     .trim();
 
             if (before) {
-
                 result.unshift(before);
-
             }
 
         }
 
         return result;
-
     }
 
 
     const expanded = [];
-
 
     lines.forEach(line => {
 
@@ -2367,11 +1971,9 @@ function parseBrainDump(input) {
             .forEach(piece => {
 
                 if (piece.trim()) {
-
                     expanded.push(
                         piece.trim()
                     );
-
                 }
 
             });
@@ -2388,6 +1990,7 @@ function parseBrainDump(input) {
             return;
         }
 
+
         let date =
             extractDate(text);
 
@@ -2399,16 +2002,18 @@ function parseBrainDump(input) {
         }
 
 
-        /* REMINDER */
+        /*
+           REMINDER
+        */
 
         if (
-            /^(remind me to|remind me|remind|remember to|remember|recuérdame|recuerdame|recuerda|acuérdame|acuerdame)\b/i
+            /^(remind me to|remind me|remind|remember to|remember)\b/i
                 .test(text)
         ) {
 
             let reminderText =
                 text.replace(
-                    /^(remind me to|remind me|remind|remember to|remember|recuérdame|recuerdame|recuerda|acuérdame|acuerdame)\s*/i,
+                    /^(remind me to|remind me|remind|remember to|remember)\s*/i,
                     ""
                 );
 
@@ -2434,20 +2039,21 @@ function parseBrainDump(input) {
             }
 
             return;
-
         }
 
 
-        /* IDEA */
+        /*
+           IDEA
+        */
 
         if (
-            /^(video idea|content idea|idea|idea de video|idea para video|i have an idea|i got an idea|i had an idea|tengo una idea|se me ocurrió una idea|se me ocurrio una idea)\b/i
+            /^(video idea|content idea|idea)\b/i
                 .test(text)
         ) {
 
             let ideaText =
                 text.replace(
-                    /^(video idea|content idea|idea|idea de video|idea para video|i have an idea to|i have an idea|i got an idea to|i got an idea|i had an idea to|i had an idea|tengo una idea para|tengo una idea de|tengo una idea|se me ocurrió una idea para|se me ocurrió una idea|se me ocurrio una idea para|se me ocurrio una idea)\s*:?\s*/i,
+                    /^(video idea|content idea|idea)\s*:?\s*/i,
                     ""
                 );
 
@@ -2469,20 +2075,21 @@ function parseBrainDump(input) {
             }
 
             return;
-
         }
 
 
-        /* NOTE */
+        /*
+           NOTE
+        */
 
         if (
-            /^(note|notes|nota|notas|add to my notes|save this)\b/i
+            /^(note|notes)\b/i
                 .test(text)
         ) {
 
             let noteText =
                 text.replace(
-                    /^(note|notes|nota|notas|add to my notes|save this)\s*:?\s*/i,
+                    /^(note|notes)\s*:?\s*/i,
                     ""
                 );
 
@@ -2504,20 +2111,21 @@ function parseBrainDump(input) {
             }
 
             return;
-
         }
 
 
-        /* SHOPPING LIST */
+        /*
+           SHOPPING
+        */
 
         if (
-            /^(shopping\s+list|shopping|grocery\s+list|groceries|lista\s+de\s+compras|lista\s+de\s+compra)\b/i
+            /^(buy|buying|purchase|pick up|pickup|order)\b/i
                 .test(text)
         ) {
 
             let shoppingText =
                 text.replace(
-                    /^(shopping\s+list|shopping|grocery\s+list|groceries|lista\s+de\s+compras|lista\s+de\s+compra)\s*:?\s*/i,
+                    /^(buy|buying|purchase|pick up|pickup|order)\s*/i,
                     ""
                 );
 
@@ -2525,6 +2133,16 @@ function parseBrainDump(input) {
                 removeDateWords(
                     shoppingText
                 );
+
+
+            /*
+               Handle common shopping
+               lists like:
+
+               eggs milk bacon
+               eggs and milk
+               eggs, milk
+            */
 
             const items =
                 splitShoppingItems(
@@ -2550,66 +2168,21 @@ function parseBrainDump(input) {
             });
 
             return;
-
         }
 
 
-        /* BUY / PURCHASE */
+        /*
+           TASK
+        */
 
         if (
-            /^(buy|buying|purchase|pick up|pickup|order|comprar|compra|comprar cosas)\b/i
-                .test(text)
-        ) {
-
-            let shoppingText =
-                text.replace(
-                    /^(buy|buying|purchase|pick up|pickup|order|comprar|compra|comprar cosas)\s*/i,
-                    ""
-                );
-
-            shoppingText =
-                removeDateWords(
-                    shoppingText
-                );
-
-            const items =
-                splitShoppingItems(
-                    shoppingText
-                );
-
-            items.forEach(item => {
-
-                if (item) {
-
-                    thoughts.push({
-
-                        text: item,
-
-                        section: "shopping",
-
-                        date: null
-
-                    });
-
-                }
-
-            });
-
-            return;
-
-        }
-
-
-        /* TASK */
-
-        if (
-            /^(i need to|i have to|i gotta|i should|make|finish|complete|do|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe record|hacer|haz|terminar|termina|limpiar|limpia|lavar|lava|llamar|llama|grabar|graba|editar|subir|crear|arreglar|reparar|construir|pagar|paga|organizar|revisar|visitar|ir|trabajar)\b/i
+            /^(i need to|i have to|i gotta|i should|make|finish|complete|do|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe record)\b/i
                 .test(text)
         ) {
 
             let taskText =
                 text.replace(
-                    /^(i need to|i have to|i gotta|i should|hacer|haz|terminar|termina)\s*/i,
+                    /^(i need to|i have to|i gotta|i should)\s*/i,
                     ""
                 );
 
@@ -2625,6 +2198,11 @@ function parseBrainDump(input) {
                         taskText
                     )
                 );
+
+            /*
+               Split:
+               call dentist and make videos
+            */
 
             const taskParts =
                 splitTasks(taskText);
@@ -2652,11 +2230,12 @@ function parseBrainDump(input) {
             });
 
             return;
-
         }
 
 
-        /* FALLBACK = NOTE */
+        /*
+           FALLBACK
+        */
 
         thoughts.push({
 
@@ -2672,13 +2251,12 @@ function parseBrainDump(input) {
 
 
     return thoughts;
-
 }
 
 
-/* =========================================================
+/* ========================================
    SPLIT TASKS
-========================================================= */
+======================================== */
 
 function splitTasks(text) {
 
@@ -2696,30 +2274,33 @@ function splitTasks(text) {
             cleanText(piece);
 
         if (cleaned) {
-
             result.push(cleaned);
-
         }
 
     });
 
     return result;
-
 }
 
 
-/* =========================================================
+/* ========================================
    SHOPPING SPLITTER
-========================================================= */
+======================================== */
 
 function splitShoppingItems(text) {
 
     text =
         cleanText(text);
 
+
     if (!text) {
         return [];
     }
+
+
+    /*
+       First split commas and "and".
+    */
 
     let items =
         text
@@ -2732,50 +2313,44 @@ function splitShoppingItems(text) {
             .filter(Boolean);
 
 
-    if (items.length === 1) {
+    /*
+       If there is still only one long
+       shopping phrase, recognize common
+       food/household item words.
+    */
 
-        const commonItems = [
+    if (
+        items.length === 1
+    ) {
 
-            "eggs",
-            "milk",
-            "bacon",
-            "soda",
-            "bread",
-            "water",
-            "cheese",
-            "chicken",
-            "beef",
-            "rice",
-            "toothpaste",
-            "paper towels",
-            "toilet paper",
-            "snacks",
-            "chips",
-            "cereal",
-            "coffee",
-            "soap",
-            "shampoo",
-            "deodorant",
-            "waffles",
-            "sausages",
-            "winnies",
-            "weenies",
-            "pork",
-            "juice",
-            "butter",
-            "flour",
-            "sugar",
-            "salt",
-            "candy",
-            "cookies",
-            "fruit",
-            "vegetables"
-
-        ];
+        const commonItems =
+            [
+                "eggs",
+                "milk",
+                "bacon",
+                "soda",
+                "bread",
+                "water",
+                "cheese",
+                "chicken",
+                "beef",
+                "rice",
+                "toothpaste",
+                "paper towels",
+                "toilet paper",
+                "snacks",
+                "chips",
+                "cereal",
+                "coffee",
+                "soap",
+                "shampoo",
+                "deodorant"
+            ];
 
 
         let remaining =
             items[0];
+
 
         const found = [];
 
@@ -2793,8 +2368,11 @@ function splitShoppingItems(text) {
                     "i"
                 );
 
+
             if (
-                regex.test(remaining)
+                regex.test(
+                    remaining
+                )
             ) {
 
                 found.push(item);
@@ -2821,11 +2399,7 @@ function splitShoppingItems(text) {
             ];
 
             if (remaining) {
-
-                items.push(
-                    remaining
-                );
-
+                items.push(remaining);
             }
 
         }
@@ -2834,13 +2408,12 @@ function splitShoppingItems(text) {
 
 
     return items;
-
 }
 
 
-/* =========================================================
-   DATES
-========================================================= */
+/* ========================================
+   DATE
+======================================== */
 
 function extractDate(text) {
 
@@ -2853,11 +2426,15 @@ function extractDate(text) {
     if (!match) {
 
         return {
+
             date: null,
-            text
+
+            text: text
+
         };
 
     }
+
 
     return {
 
@@ -2872,14 +2449,12 @@ function extractDate(text) {
                 .trim()
 
     };
-
 }
 
 
 function extractInlineDate(text) {
 
     return getReminderDate(text);
-
 }
 
 
@@ -2893,27 +2468,44 @@ function getReminderDate(text) {
         text.toLowerCase();
 
 
-    if (/\btomorrow\b/.test(lower)) {
+    if (
+        /\btomorrow\b/.test(lower)
+    ) {
         return "Tomorrow";
     }
 
-    if (/\btoday\b/.test(lower)) {
+
+    if (
+        /\btoday\b/.test(lower)
+    ) {
         return "Today";
     }
 
-    if (/\btonight\b/.test(lower)) {
+
+    if (
+        /\btonight\b/.test(lower)
+    ) {
         return "Tonight";
     }
 
-    if (/\bthis weekend\b/.test(lower)) {
+
+    if (
+        /\bthis weekend\b/.test(lower)
+    ) {
         return "This weekend";
     }
 
-    if (/\bnext week\b/.test(lower)) {
+
+    if (
+        /\bnext week\b/.test(lower)
+    ) {
         return "Next week";
     }
 
-    if (/\bnext month\b/.test(lower)) {
+
+    if (
+        /\bnext month\b/.test(lower)
+    ) {
         return "Next month";
     }
 
@@ -2921,21 +2513,31 @@ function getReminderDate(text) {
     const days = {
 
         monday: "Monday",
+
         tuesday: "Tuesday",
+
         wednesday: "Wednesday",
+
         thursday: "Thursday",
+
         friday: "Friday",
+
         saturday: "Saturday",
+
         sunday: "Sunday"
 
     };
 
 
-    for (const day in days) {
+    for (
+        const day in days
+    ) {
 
         if (
             new RegExp(
-                "\\b" + day + "\\b",
+                "\\b" +
+                day +
+                "\\b",
                 "i"
             ).test(lower)
         ) {
@@ -2948,7 +2550,6 @@ function getReminderDate(text) {
 
 
     return null;
-
 }
 
 
@@ -2972,15 +2573,17 @@ function removeDateWords(text) {
         )
 
         .trim();
-
 }
 
 
-/* =========================================================
+/* ========================================
    REMINDERS
-========================================================= */
+======================================== */
 
-function addReminder(date, text) {
+function addReminder(
+    date,
+    text
+) {
 
     if (!text) {
         return;
@@ -2998,19 +2601,19 @@ function addReminder(date, text) {
 
         reminders.push({
 
-            date,
-            text
+            date: date,
+
+            text: text
 
         });
 
     }
-
 }
 
 
-/* =========================================================
+/* ========================================
    CLEAN TEXT
-========================================================= */
+======================================== */
 
 function cleanText(text) {
 
@@ -3032,13 +2635,12 @@ function cleanText(text) {
         )
 
         .trim();
-
 }
 
 
-/* =========================================================
-   DISPLAY EVERYTHING
-========================================================= */
+/* ========================================
+   DISPLAY
+======================================== */
 
 function displayAll() {
 
@@ -3048,10 +2650,9 @@ function displayAll() {
         );
 
     if (results) {
-
         results.classList.add("show");
-
     }
+
 
     displayItems(
         "tasks",
@@ -3059,7 +2660,9 @@ function displayAll() {
         "No tasks detected yet."
     );
 
+
     displayReminders();
+
 
     displayItems(
         "shopping",
@@ -3067,148 +2670,72 @@ function displayAll() {
         "No shopping items detected yet."
     );
 
+
     displayItems(
         "ideas",
         ideas,
         "No ideas detected yet."
     );
 
+
     displayItems(
         "notes",
         notes,
         "No notes detected yet."
     );
-
 }
 
 
-/* =========================================================
-   DISPLAY CHECKBOX ITEMS
-========================================================= */
-
 function displayItems(
-    containerId,
+    elementId,
     items,
     emptyMessage
 ) {
 
-    const container =
+    const element =
         document.getElementById(
-            containerId
+            elementId
         );
 
-    if (!container) {
+    if (!element) {
         return;
     }
 
-    container.innerHTML = "";
 
-    if (!items.length) {
+    if (
+        items.length === 0
+    ) {
 
-        container.innerHTML = `
-
-            <div class="empty-message">
-                ${emptyMessage}
-            </div>
-
-        `;
+        element.innerHTML =
+            `<div class="item">${emptyMessage}</div>`;
 
         return;
-
     }
 
 
-    items.forEach(
-        (item, index) => {
+    element.innerHTML =
+        items
+            .map(item => `
 
-            const row =
-                document.createElement(
-                    "div"
-                );
+                <div
+                    class="item task-item"
+                    onclick="toggleItem(this)"
+                >
 
-            row.className =
-                "item-row";
+                    <span class="checkbox">
+                        ☐
+                    </span>
 
-
-            row.innerHTML = `
-
-                <div class="item-delete-bg">
-                    DELETE
-                </div>
-
-                <div class="item-content">
-
-                    <label class="checkbox-label">
-
-                        <input
-                            type="checkbox"
-                        >
-
-                        <span
-                            class="checkmark"
-                        ></span>
-
-                        <span class="item-text">
-                            ${escapeHTML(item)}
-                        </span>
-
-                    </label>
+                    <span class="task-text">
+                        ${escapeHTML(item)}
+                    </span>
 
                 </div>
 
-            `;
-
-
-            const checkbox =
-                row.querySelector(
-                    "input[type='checkbox']"
-                );
-
-
-            checkbox.addEventListener(
-                "change",
-                function() {
-
-                    if (
-                        this.checked
-                    ) {
-
-                        row.classList.add(
-                            "completed"
-                        );
-
-                    }
-
-                    else {
-
-                        row.classList.remove(
-                            "completed"
-                        );
-
-                    }
-
-                }
-            );
-
-
-            container.appendChild(row);
-
-
-            setupSwipeDelete(
-                row,
-                containerId,
-                index
-            );
-
-        }
-    );
-
+            `)
+            .join("");
 }
 
-
-/* =========================================================
-   DISPLAY REMINDERS
-========================================================= */
 
 function displayReminders() {
 
@@ -3222,550 +2749,84 @@ function displayReminders() {
     }
 
 
-    element.innerHTML = "";
-
-
-    if (reminders.length === 0) {
+    if (
+        reminders.length === 0
+    ) {
 
         element.innerHTML = `
 
-            <div class="empty-message">
+            <div class="item">
                 No reminders detected yet.
             </div>
 
         `;
 
         return;
-
     }
 
 
-    reminders.forEach(
-        (reminder, index) => {
+    element.innerHTML =
+        reminders
+            .map(reminder => `
 
-            const row =
-                document.createElement(
-                    "div"
-                );
+                <div class="item">
 
-            row.className =
-                "item-row";
+                    🔔
 
+                    <strong>
+                        ${escapeHTML(reminder.date)}
+                    </strong>
 
-            row.innerHTML = `
-
-                <div class="item-delete-bg">
-                    DELETE
-                </div>
-
-                <div class="item-content">
-
-                    <div class="item">
-
-                        🔔
-
-                        <strong>
-                            ${escapeHTML(reminder.date)}
-                        </strong>
-
-                        —
-                        ${escapeHTML(reminder.text)}
-
-                    </div>
+                    —
+                    ${escapeHTML(reminder.text)}
 
                 </div>
 
-            `;
-
-
-            element.appendChild(row);
-
-
-            setupSwipeDelete(
-                row,
-                "reminders",
-                index
-            );
-
-        }
-    );
-
+            `)
+            .join("");
 }
 
 
-/* =========================================================
-   SWIPE TO DELETE
-========================================================= */
+/* ========================================
+   CHECKBOX
+======================================== */
 
-function setupSwipeDelete(
-    row,
-    category,
-    index
-) {
+function toggleItem(element) {
 
-    const content =
-        row.querySelector(
-            ".item-content"
+    element.classList.toggle(
+        "completed"
+    );
+
+
+    const checkbox =
+        element.querySelector(
+            ".checkbox"
         );
 
-    if (!content) {
-        return;
-    }
-
-
-    let startX = 0;
-
-    let currentX = 0;
-
-    let dragging = false;
-
-    let moved = false;
-
-    const deleteDistance = 110;
-
-
-    function start(clientX) {
-
-        startX = clientX;
-
-        currentX = clientX;
-
-        dragging = true;
-
-        moved = false;
-
-        content.style.transition =
-            "none";
-
-    }
-
-
-    function move(clientX) {
-
-        if (!dragging) {
-            return;
-        }
-
-        currentX = clientX;
-
-        let distance =
-            currentX - startX;
-
-
-        /*
-           Only allow dragging LEFT.
-        */
-
-        if (distance > 0) {
-
-            distance = 0;
-
-        }
-
-
-        if (
-            Math.abs(distance) > 8
-        ) {
-
-            moved = true;
-
-        }
-
-
-        distance =
-            Math.max(
-                distance,
-                -180
-            );
-
-
-        content.style.transform =
-            `translateX(${distance}px)`;
-
-
-        if (
-            distance < -10
-        ) {
-
-            row.classList.add(
-                "swiping"
-            );
-
-        }
-
-    }
-
-
-    function end() {
-
-        if (!dragging) {
-            return;
-        }
-
-        dragging = false;
-
-
-        const distance =
-            currentX - startX;
-
-
-        content.style.transition =
-            "transform 0.2s ease";
-
-
-        if (
-            distance <=
-            -deleteDistance
-        ) {
-
-            row.classList.add(
-                "removing"
-            );
-
-
-            content.style.transform =
-                "translateX(-100%)";
-
-
-            setTimeout(
-                function() {
-
-                    deleteItemFromCategory(
-                        category,
-                        index
-                    );
-
-                },
-                250
-            );
-
-        }
-
-        else {
-
-            content.style.transform =
-                "translateX(0)";
-
-            row.classList.remove(
-                "swiping"
-            );
-
-        }
-
-    }
-
-
-    /* =====================================================
-       MOUSE
-    ===================================================== */
-
-    row.addEventListener(
-        "mousedown",
-        function(event) {
-
-            if (event.button !== 0) {
-                return;
-            }
-
-            start(
-                event.clientX
-            );
-
-        }
-    );
-
-
-    window.addEventListener(
-        "mousemove",
-        function(event) {
-
-            if (!dragging) {
-                return;
-            }
-
-            move(
-                event.clientX
-            );
-
-        }
-    );
-
-
-    window.addEventListener(
-        "mouseup",
-        function() {
-
-            end();
-
-        }
-    );
-
-
-    /* =====================================================
-       TOUCH
-    ===================================================== */
-
-    row.addEventListener(
-        "touchstart",
-        function(event) {
-
-            if (
-                !event.touches.length
-            ) {
-
-                return;
-
-            }
-
-            start(
-                event.touches[0].clientX
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    row.addEventListener(
-        "touchmove",
-        function(event) {
-
-            if (
-                !dragging ||
-                !event.touches.length
-            ) {
-
-                return;
-
-            }
-
-            move(
-                event.touches[0].clientX
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    row.addEventListener(
-        "touchend",
-        function() {
-
-            end();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   DELETE ITEM
-========================================================= */
-
-function deleteItemFromCategory(
-    category,
-    index
-) {
-
-    if (category === "tasks") {
-
-        tasks.splice(index, 1);
-
-    }
-
-    else if (
-        category === "reminders"
-    ) {
-
-        reminders.splice(index, 1);
-
-    }
-
-    else if (
-        category === "shopping"
-    ) {
-
-        shopping.splice(index, 1);
-
-    }
-
-    else if (
-        category === "ideas"
-    ) {
-
-        ideas.splice(index, 1);
-
-    }
-
-    else if (
-        category === "notes"
-    ) {
-
-        notes.splice(index, 1);
-
-    }
-
-
-    saveData();
-
-    displayAll();
-
-}
-
-
-/* =========================================================
-   ADD ITEM
-========================================================= */
-
-function addItemToCategory(
-    category
-) {
-
-    const labels = {
-
-        tasks:
-            "Add a task",
-
-        reminders:
-            "Add a reminder",
-
-        shopping:
-            "Add a shopping item",
-
-        ideas:
-            "Add an idea",
-
-        notes:
-            "Add a note"
-
-    };
-
-
-    const value =
-        prompt(
-            labels[category] ||
-            "Add item"
-        );
-
-
-    if (value === null) {
-        return;
-    }
-
-
-    const item =
-        value.trim();
-
-
-    if (!item) {
+    if (!checkbox) {
         return;
     }
 
 
     if (
-        category === "tasks"
+        element.classList.contains(
+            "completed"
+        )
     ) {
 
-        if (
-            !tasks.some(
-                value =>
-                    value.toLowerCase() ===
-                    item.toLowerCase()
-            )
-        ) {
+        checkbox.textContent = "☑";
 
-            tasks.push(item);
+    } else {
 
-        }
+        checkbox.textContent = "☐";
 
     }
-
-
-    else if (
-        category === "reminders"
-    ) {
-
-        addReminder(
-            "For later",
-            item
-        );
-
-    }
-
-
-    else if (
-        category === "shopping"
-    ) {
-
-        if (
-            !shopping.some(
-                value =>
-                    value.toLowerCase() ===
-                    item.toLowerCase()
-            )
-        ) {
-
-            shopping.push(item);
-
-        }
-
-    }
-
-
-    else if (
-        category === "ideas"
-    ) {
-
-        if (
-            !ideas.some(
-                value =>
-                    value.toLowerCase() ===
-                    item.toLowerCase()
-            )
-        ) {
-
-            ideas.push(item);
-
-        }
-
-    }
-
-
-    else if (
-        category === "notes"
-    ) {
-
-        if (
-            !notes.some(
-                value =>
-                    value.toLowerCase() ===
-                    item.toLowerCase()
-            )
-        ) {
-
-            notes.push(item);
-
-        }
-
-    }
-
-
-    saveData();
-
-    displayAll();
-
 }
 
 
-/* =========================================================
+/* ========================================
    CLEAR EVERYTHING
-========================================================= */
+======================================== */
 
 function clearAllData() {
 
@@ -3774,7 +2835,6 @@ function clearAllData() {
             "Are you sure you want to clear everything?\n\n" +
             "This will delete all tasks, reminders, shopping items, ideas, and notes."
         );
-
 
     if (!confirmed) {
         return;
@@ -3799,17 +2859,15 @@ function clearAllData() {
 
     displayAll();
 
-
     alert(
         "Brain Dump has been cleared."
     );
-
 }
 
 
-/* =========================================================
+/* ========================================
    HTML SECURITY
-========================================================= */
+======================================== */
 
 function escapeHTML(text) {
 
@@ -3822,25 +2880,12 @@ function escapeHTML(text) {
         String(text);
 
     return div.innerHTML;
-
 }
 
 
-/*
-   Alias kept in case another part of
-   the app calls escapeHtml().
-*/
-
-function escapeHtml(text) {
-
-    return escapeHTML(text);
-
-}
-
-
-/* =========================================================
+/* ========================================
    VOICE RECOGNITION
-========================================================= */
+======================================== */
 
 function setupVoiceRecognition() {
 
@@ -3856,7 +2901,6 @@ function setupVoiceRecognition() {
         );
 
         return;
-
     }
 
 
@@ -3881,7 +2925,6 @@ function setupVoiceRecognition() {
                 document.getElementById(
                     "micButton"
                 );
-
 
             const voiceStatus =
                 document.getElementById(
@@ -3928,7 +2971,6 @@ function setupVoiceRecognition() {
                     "brainInput"
                 );
 
-
             if (!textarea) {
                 return;
             }
@@ -3959,15 +3001,17 @@ function setupVoiceRecognition() {
             if (
                 !finalText.trim()
             ) {
-
                 return;
-
             }
 
 
             let spoken =
                 finalText.trim();
 
+
+            /*
+               BACKSPACE
+            */
 
             if (
                 /^backspace$/i.test(spoken) ||
@@ -3983,9 +3027,12 @@ function setupVoiceRecognition() {
                 textarea.focus();
 
                 return;
-
             }
 
+
+            /*
+               DELETE THAT
+            */
 
             if (
                 /^delete that$/i.test(spoken) ||
@@ -3993,17 +3040,21 @@ function setupVoiceRecognition() {
             ) {
 
                 textarea.value =
-                    textarea.value.replace(
-                        /\s*\S+\s*$/,
-                        ""
-                    );
+                    textarea.value
+                        .replace(
+                            /\s*\S+\s*$/,
+                            ""
+                        );
 
                 textarea.focus();
 
                 return;
-
             }
 
+
+            /*
+               VOICE NEW LINES
+            */
 
             spoken =
                 spoken
@@ -4021,7 +3072,15 @@ function setupVoiceRecognition() {
                     .replace(
                         /\benter\b/gi,
                         "\n"
-                    )
+                    );
+
+
+            /*
+               VOICE PUNCTUATION
+            */
+
+            spoken =
+                spoken
 
                     .replace(
                         /\bcomma\b/gi,
@@ -4095,7 +3154,9 @@ function setupVoiceRecognition() {
 
 
             const startsWithNewLine =
-                spoken.startsWith("\n");
+                spoken.startsWith(
+                    "\n"
+                );
 
 
             if (
@@ -4110,9 +3171,7 @@ function setupVoiceRecognition() {
                     " " +
                     spoken;
 
-            }
-
-            else {
+            } else {
 
                 textarea.value =
                     existing +
@@ -4126,7 +3185,6 @@ function setupVoiceRecognition() {
 
             textarea.selectionStart =
                 textarea.value.length;
-
 
             textarea.selectionEnd =
                 textarea.value.length;
@@ -4144,8 +3202,10 @@ function setupVoiceRecognition() {
 
 
             if (
-                event.error === "not-allowed" ||
-                event.error === "service-not-allowed"
+                event.error ===
+                    "not-allowed" ||
+                event.error ===
+                    "service-not-allowed"
             ) {
 
                 alert(
@@ -4168,7 +3228,6 @@ function setupVoiceRecognition() {
                 document.getElementById(
                     "micButton"
                 );
-
 
             const voiceStatus =
                 document.getElementById(
@@ -4218,7 +3277,6 @@ function toggleVoiceInput() {
         );
 
         return;
-
     }
 
 
@@ -4227,7 +3285,6 @@ function toggleVoiceInput() {
         stopVoiceInput();
 
         return;
-
     }
 
 
@@ -4235,9 +3292,7 @@ function toggleVoiceInput() {
 
         recognition.start();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.warn(
             "Could not start voice recognition.",
@@ -4260,9 +3315,7 @@ function stopVoiceInput() {
 
             recognition.stop();
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.warn(
                 "Could not stop voice recognition.",
@@ -4281,7 +3334,6 @@ function stopVoiceInput() {
         document.getElementById(
             "micButton"
         );
-
 
     const voiceStatus =
         document.getElementById(
@@ -4320,9 +3372,9 @@ function stopVoiceInput() {
 }
 
 
-/* =========================================================
+/* ========================================
    KEYBOARD
-========================================================= */
+======================================== */
 
 function setupBrainDumpKeyboard() {
 
@@ -4330,7 +3382,6 @@ function setupBrainDumpKeyboard() {
         document.getElementById(
             "brainInput"
         );
-
 
     if (!textarea) {
         return;
@@ -4340,6 +3391,10 @@ function setupBrainDumpKeyboard() {
     textarea.addEventListener(
         "keydown",
         function(event) {
+
+            /*
+               ENTER = ORGANIZE
+            */
 
             if (
                 event.key === "Enter" &&
@@ -4352,17 +3407,23 @@ function setupBrainDumpKeyboard() {
 
                 organizeDump();
 
+                return;
             }
+
+
+            /*
+               SHIFT + ENTER
+               = normal newline
+            */
 
         }
     );
-
 }
 
 
-/* =========================================================
+/* ========================================
    COMING SOON
-========================================================= */
+======================================== */
 
 function comingSoon(section) {
 
@@ -4370,13 +3431,12 @@ function comingSoon(section) {
         section +
         " is coming soon."
     );
-
 }
 
 
-/* =========================================================
+/* ========================================
    START APP
-========================================================= */
+======================================== */
 
 window.addEventListener(
     "DOMContentLoaded",
@@ -4391,6 +3451,7 @@ window.addEventListener(
         setupBrainDumpKeyboard();
 
         /*
+           IMPORTANT:
            Brain Dump is the landing page.
         */
 
@@ -4400,41 +3461,12 @@ window.addEventListener(
 );
 
 </script>
-
-
 <script>
-
-/* =========================================================
-   SERVICE WORKER
-========================================================= */
-
 if ("serviceWorker" in navigator) {
-
-    window.addEventListener(
-        "load",
-        function() {
-
-            navigator.serviceWorker
-                .register("./sw.js")
-                .catch(
-                    function(error) {
-
-                        console.warn(
-                            "Service worker could not register:",
-                            error
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js");
+    });
 }
-
 </script>
-
-
 </body>
-
 </html>
