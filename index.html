@@ -1,0 +1,4440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#000000">
+
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Brain Dumpz</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+button,
+textarea,
+input {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   APP / PAGE SLIDER
+========================================================= */
+
+.app {
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.page-window {
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.page-slider {
+    width: 300%;
+    min-height: 100vh;
+
+    display: flex;
+
+    transition:
+        transform 0.45s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+}
+
+.page {
+    width: 33.333333%;
+    min-height: 100vh;
+    flex-shrink: 0;
+
+    padding: 30px 30px 110px;
+}
+
+
+/* =========================================================
+   BRAIN DUMP PAGE
+========================================================= */
+
+.dump-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dump-page > * {
+    width: 100%;
+    max-width: 850px;
+}
+
+.header {
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.brand-text h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.tagline {
+    color: #666;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   DUMP BOX
+========================================================= */
+
+.dump-box {
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.textarea-wrapper {
+    position: relative;
+}
+
+textarea {
+    width: 100%;
+    min-height: 260px;
+
+    resize: vertical;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: white;
+
+    font-size: 18px;
+    line-height: 1.6;
+
+    padding-right: 55px;
+}
+
+textarea::placeholder {
+    color: #555;
+}
+
+
+/* =========================================================
+   MICROPHONE
+========================================================= */
+
+.mic-button {
+    position: absolute;
+
+    right: 10px;
+    bottom: 10px;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    border-radius: 50%;
+    border: 1px solid #333;
+
+    background: #181818;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.mic-button:hover {
+    background: #222;
+    border-color: #555;
+}
+
+.mic-button:active {
+    transform: scale(0.92);
+}
+
+.mic-button.listening {
+    background: #ff3b3b;
+    border-color: #ff3b3b;
+
+    animation:
+        micPulse 1.2s infinite;
+}
+
+@keyframes micPulse {
+
+    0% {
+        box-shadow:
+            0 0 0 0
+            rgba(255,59,59,0.5);
+    }
+
+    70% {
+        box-shadow:
+            0 0 0 12px
+            rgba(255,59,59,0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 0
+            rgba(255,59,59,0);
+    }
+
+}
+
+#voiceStatus.listening {
+    color: #ff3b3b;
+}
+
+
+/* =========================================================
+   DUMP BUTTON AREA
+========================================================= */
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 15px;
+}
+
+.hint {
+    color: #555;
+    font-size: 13px;
+}
+
+.organize-button {
+    border: none;
+
+    background: white;
+    color: black;
+
+    padding: 13px 24px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.organize-button:hover {
+    background: #ddd;
+    transform: translateY(-2px);
+}
+
+.organize-button:active {
+    transform: scale(0.98);
+}
+
+
+/* =========================================================
+   TASK PAGE
+========================================================= */
+
+.tasks-page {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.page-title h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.page-title p {
+    color: #666;
+    font-size: 13px;
+}
+
+.results {
+    display: block;
+}
+
+
+/* =========================================================
+   CATEGORY BOXES
+========================================================= */
+
+.section {
+    background: #111;
+
+    border: 1px solid #292929;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    margin-bottom: 12px;
+
+    overflow: hidden;
+}
+
+.category-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    min-height: 28px;
+
+    margin-bottom: 12px;
+}
+
+.category-header h3 {
+    margin: 0;
+
+    color: #fff;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+.add-item {
+    color: #888;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition:
+        color 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.add-item:hover {
+    color: #fff;
+}
+
+
+/* =========================================================
+   EMPTY CATEGORY
+========================================================= */
+
+.empty-message {
+    color: #555;
+
+    font-size: 13px;
+
+    padding: 8px 0;
+}
+
+
+/* =========================================================
+   SWIPE / DRAG TO DELETE
+========================================================= */
+
+.item-row {
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    touch-action: pan-y;
+
+    user-select: none;
+
+    border-bottom: 1px solid #222;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-delete-bg {
+    position: absolute;
+
+    inset: 0;
+
+    background: #8b0000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    padding-right: 22px;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    z-index: 1;
+
+    opacity: 0;
+
+    transition: opacity 0.15s ease;
+}
+
+.item-row.swiping .item-delete-bg {
+    opacity: 1;
+}
+
+.item-content {
+    position: relative;
+
+    z-index: 2;
+
+    background: #111;
+
+    transform: translateX(0);
+
+    transition:
+        transform 0.2s ease;
+
+    will-change: transform;
+}
+
+.item-row.removing .item-content {
+    transform: translateX(-100%);
+
+    transition:
+        transform 0.25s ease;
+}
+
+.item-row.removing {
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+
+/* =========================================================
+   CHECKBOX ITEMS
+========================================================= */
+
+.checkbox-label {
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 10px 4px;
+
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+
+    min-width: 20px;
+
+    border: 1px solid #555;
+
+    border-radius: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+}
+
+.checkbox-label input:checked + .checkmark {
+    background: #9b5cff;
+
+    border-color: #9b5cff;
+}
+
+.checkbox-label input:checked + .checkmark::after {
+    content: "✓";
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.item-text {
+    color: #ccc;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    word-break: break-word;
+
+    transition:
+        color 0.2s ease,
+        text-decoration 0.2s ease;
+}
+
+.checkbox-label input:checked ~ .item-text {
+    color: #777;
+
+    text-decoration: line-through;
+
+    text-decoration-color: #ff3b3b;
+
+    text-decoration-thickness: 2px;
+}
+
+
+/* =========================================================
+   REMINDERS
+========================================================= */
+
+.item {
+    color: #ccc;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #222;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+.clear-all-container {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 35px;
+
+    margin-bottom: 30px;
+}
+
+.clear-all-button {
+    background: transparent;
+
+    color: #777;
+
+    border: 1px solid #333;
+
+    padding: 10px 22px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.clear-all-button:hover {
+    color: #ff3b3b;
+
+    border-color: #ff3b3b;
+
+    background: #160909;
+}
+
+
+/* =========================================================
+   SAVE LIST
+========================================================= */
+
+.save-list-container {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 25px;
+}
+
+.save-list-button {
+    background: transparent;
+
+    color: #aaa;
+
+    border: 1px solid #333;
+
+    padding: 11px 20px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.save-list-button:hover {
+    background: #181818;
+
+    color: white;
+}
+
+
+/* =========================================================
+   MORE PAGE
+========================================================= */
+
+.more-page {
+    background: #000;
+
+    max-width: none;
+}
+
+.more-page-inner {
+    width: 100%;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+}
+
+.more-menu {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.more-menu-item {
+    width: 100%;
+
+    background: #111;
+
+    color: white;
+
+    border: 1px solid #292929;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    font-size: 16px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.more-menu-item:hover {
+    background: #181818;
+
+    border-color: #444;
+}
+
+.more-menu-item span:first-child {
+    font-size: 21px;
+}
+
+
+/* =========================================================
+   SAVED LISTS
+========================================================= */
+
+.saved-lists-header {
+    margin-bottom: 25px;
+}
+
+.back-more-button {
+    background: transparent;
+
+    color: #aaa;
+
+    border: 1px solid #333;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    margin-bottom: 20px;
+}
+
+.back-more-button:hover {
+    background: #181818;
+
+    color: white;
+}
+
+.saved-lists-header h2 {
+    font-size: 28px;
+
+    margin-bottom: 5px;
+}
+
+.saved-lists-header p {
+    color: #666;
+
+    font-size: 13px;
+}
+
+.saved-list-card {
+    background: #111;
+
+    border: 1px solid #292929;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 10px;
+}
+
+.saved-list-info {
+    min-width: 0;
+}
+
+.saved-list-name {
+    font-size: 16px;
+
+    font-weight: bold;
+
+    word-break: break-word;
+}
+
+.saved-list-date {
+    color: #666;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+.saved-list-buttons {
+    display: flex;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+}
+
+.load-list-button,
+.delete-list-button {
+    border: 1px solid #333;
+
+    padding: 9px 13px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.load-list-button {
+    background: white;
+
+    color: black;
+}
+
+.delete-list-button {
+    background: transparent;
+
+    color: #ff5555;
+
+    border-color: #4a2020;
+}
+
+.delete-list-button:hover {
+    background: #190909;
+}
+
+.no-saved-lists {
+    background: #111;
+
+    border: 1px solid #292929;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    color: #666;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   BOTTOM NAVIGATION
+========================================================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 18px;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(
+            500px,
+            calc(100% - 30px)
+        );
+
+    height: 68px;
+
+    background:
+        rgba(
+            17,
+            17,
+            17,
+            0.96
+        );
+
+    border: 1px solid #292929;
+
+    border-radius: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-around;
+
+    padding: 0 35px;
+
+    backdrop-filter: blur(12px);
+
+    z-index: 9999;
+}
+
+.nav-button {
+    background: transparent;
+
+    color: #777;
+
+    border: none;
+
+    width: 70px;
+
+    height: 60px;
+
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    cursor: pointer;
+
+    transition: color 0.15s ease;
+}
+
+.nav-button:hover {
+    background: transparent;
+
+    color: white;
+}
+
+.nav-button span {
+    font-size: 21px;
+
+    line-height: 1;
+}
+
+.nav-button small {
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   CENTER HOME LOGO BUTTON
+========================================================= */
+
+.nav-center {
+    width: 66px;
+    height: 66px;
+
+    margin-top: -28px;
+
+    padding: 6px;
+
+    border-radius: 50%;
+
+    background: #111;
+
+    border: 1px solid #3a3a3a;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.5);
+}
+
+.nav-center:hover {
+    background: #181818;
+
+    border-color: #555;
+
+    transform:
+        translateY(-3px);
+}
+
+.nav-center:active {
+    transform:
+        translateY(-1px)
+        scale(0.96);
+}
+
+.nav-center img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+
+    display: block;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .page {
+        padding: 20px 15px 105px;
+    }
+
+    .logo {
+        width: 85px;
+        height: 85px;
+    }
+
+    .bottom {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .organize-button {
+        width: 100%;
+    }
+
+    .bottom-nav {
+        left: 12px;
+        right: 12px;
+
+        bottom: 12px;
+
+        width: auto;
+
+        height: 64px;
+
+        padding: 0 25px;
+
+        border-radius: 18px;
+    }
+
+    .nav-center {
+        width: 62px;
+        height: 62px;
+
+        padding: 5px;
+
+        margin-top: -22px;
+    }
+
+    .nav-button {
+        width: 65px;
+        height: 58px;
+    }
+
+    .saved-list-card {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .saved-list-buttons {
+        width: 100%;
+    }
+
+    .load-list-button,
+    .delete-list-button {
+        flex: 1;
+    }
+
+    .category-header h3 {
+        font-size: 15px;
+    }
+
+    .add-item {
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH / MOBILE SWIPE
+========================================================= */
+
+@media (hover: none) {
+
+    .item-row {
+        touch-action: pan-y;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<main class="app">
+
+    <div class="page-window">
+
+        <div
+            class="page-slider"
+            id="pageSlider"
+        >
+
+
+            <!-- =================================================
+                 MY TASKS
+            ================================================== -->
+
+            <section class="page tasks-page">
+
+                <div class="page-title">
+
+                    <h2>
+                        My Tasks
+                    </h2>
+
+                    <p>
+                        Everything your brain dumped.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="results"
+                    class="results"
+                >
+
+
+                    <!-- TO DO -->
+
+                    <div class="section">
+
+                        <div class="category-header">
+
+                            <h3>
+                                ✅ TO DO
+                            </h3>
+
+                            <span
+                                class="add-item"
+                                onclick="addItemToCategory('tasks')"
+                            >
+                                + Add
+                            </span>
+
+                        </div>
+
+                        <div id="tasks"></div>
+
+                    </div>
+
+
+                    <!-- REMINDERS -->
+
+                    <div class="section">
+
+                        <div class="category-header">
+
+                            <h3>
+                                🔔 REMINDERS
+                            </h3>
+
+                            <span
+                                class="add-item"
+                                onclick="addItemToCategory('reminders')"
+                            >
+                                + Add
+                            </span>
+
+                        </div>
+
+                        <div id="reminders"></div>
+
+                    </div>
+
+
+                    <!-- SHOPPING -->
+
+                    <div class="section">
+
+                        <div class="category-header">
+
+                            <h3>
+                                🛒 SHOPPING
+                            </h3>
+
+                            <span
+                                class="add-item"
+                                onclick="addItemToCategory('shopping')"
+                            >
+                                + Add
+                            </span>
+
+                        </div>
+
+                        <div id="shopping"></div>
+
+                    </div>
+
+
+                    <!-- IDEAS -->
+
+                    <div class="section">
+
+                        <div class="category-header">
+
+                            <h3>
+                                💡 IDEAS
+                            </h3>
+
+                            <span
+                                class="add-item"
+                                onclick="addItemToCategory('ideas')"
+                            >
+                                + Add
+                            </span>
+
+                        </div>
+
+                        <div id="ideas"></div>
+
+                    </div>
+
+
+                    <!-- NOTES -->
+
+                    <div class="section">
+
+                        <div class="category-header">
+
+                            <h3>
+                                📝 NOTES
+                            </h3>
+
+                            <span
+                                class="add-item"
+                                onclick="addItemToCategory('notes')"
+                            >
+                                + Add
+                            </span>
+
+                        </div>
+
+                        <div id="notes"></div>
+
+                    </div>
+
+
+                    <!-- SAVE -->
+
+                    <div class="save-list-container">
+
+                        <button
+                            class="save-list-button"
+                            onclick="saveCurrentList()"
+                        >
+                            SAVE LIST
+                        </button>
+
+                    </div>
+
+
+                    <!-- CLEAR -->
+
+                    <div class="clear-all-container">
+
+                        <button
+                            class="clear-all-button"
+                            onclick="clearAllData()"
+                        >
+                            CLEAR ALL
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BRAIN DUMP
+            ================================================== -->
+
+            <section class="page dump-page">
+
+                <header class="header">
+
+                    <div class="brand">
+
+                        <img
+                            src="BDz.png"
+                            class="logo"
+                            alt="Brain Dumpz"
+                        >
+
+                        <div class="brand-text">
+
+                            <h1>
+                                Brain Dumpz
+                            </h1>
+
+                            <p class="tagline">
+                                Dump it. Organize it. Get it done.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </header>
+
+
+                <section class="dump-box">
+
+                    <div class="textarea-wrapper">
+
+                        <textarea
+                            id="brainInput"
+                            placeholder="What's on your mind? Dump everything here..."
+                        ></textarea>
+
+
+                        <button
+                            type="button"
+                            id="micButton"
+                            class="mic-button"
+                            onclick="toggleVoiceInput()"
+                            aria-label="Start voice input"
+                            title="Voice input"
+                        >
+                            🎙️
+                        </button>
+
+                    </div>
+
+
+                    <div class="bottom">
+
+                        <span
+                            class="hint"
+                            id="voiceStatus"
+                        >
+                            Don't organize it. Just dump it.
+                        </span>
+
+
+                        <button
+                            type="button"
+                            class="organize-button"
+                            onclick="organizeDump()"
+                        >
+                            ORGANIZE
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+            <!-- =================================================
+                 MORE
+            ================================================== -->
+
+            <section class="page more-page">
+
+                <div class="more-page-inner">
+
+                    <div id="moreContent">
+
+                        <div class="page-title">
+
+                            <h2>
+                                MORE
+                            </h2>
+
+                            <p>
+                                More Brain Dump options
+                            </p>
+
+                        </div>
+
+
+                        <div class="more-menu">
+
+                            <button
+                                class="more-menu-item"
+                                onclick="openSavedLists()"
+                            >
+
+                                <span>
+                                    📋
+                                </span>
+
+                                <span>
+                                    Saved Lists
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="more-menu-item"
+                                onclick="comingSoon('Settings')"
+                            >
+
+                                <span>
+                                    ⚙️
+                                </span>
+
+                                <span>
+                                    Settings
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="more-menu-item"
+                                onclick="comingSoon('About')"
+                            >
+
+                                <span>
+                                    ℹ️
+                                </span>
+
+                                <span>
+                                    About
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         BOTTOM NAV
+    ================================================== -->
+
+    <nav class="bottom-nav">
+
+        <button
+            type="button"
+            class="nav-button"
+            onclick="showPage('tasks')"
+            aria-label="My Tasks"
+        >
+
+            <span>
+                ☑
+            </span>
+
+            <small>
+                MY TASKS
+            </small>
+
+        </button>
+
+
+        <!-- CENTER HOME BUTTON -->
+
+        <button
+            type="button"
+            class="nav-center"
+            onclick="showPage('dump')"
+            aria-label="Brain Dumpz Home"
+        >
+
+            <img
+                src="./BDz.png"
+                alt="Brain Dumpz"
+            >
+
+        </button>
+
+
+        <button
+            type="button"
+            class="nav-button"
+            onclick="showPage('more')"
+            aria-label="More"
+        >
+
+            <span>
+                ☰
+            </span>
+
+            <small>
+                MORE
+            </small>
+
+        </button>
+
+    </nav>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   DATA
+========================================================= */
+
+let tasks = [];
+let reminders = [];
+let shopping = [];
+let ideas = [];
+let notes = [];
+let savedLists = [];
+
+let recognition = null;
+let isListening = false;
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(page) {
+
+    const slider =
+        document.getElementById("pageSlider");
+
+    if (!slider) {
+        return;
+    }
+
+    if (page === "tasks") {
+
+        slider.style.transform =
+            "translateX(0%)";
+
+    }
+
+    else if (page === "dump") {
+
+        slider.style.transform =
+            "translateX(-33.333333%)";
+
+    }
+
+    else if (page === "more") {
+
+        slider.style.transform =
+            "translateX(-66.666666%)";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOCAL DATA
+========================================================= */
+
+function loadData() {
+
+    const savedData =
+        localStorage.getItem("brainDumpData");
+
+    if (!savedData) {
+
+        displayAll();
+
+        return;
+
+    }
+
+    try {
+
+        const data =
+            JSON.parse(savedData);
+
+        tasks =
+            Array.isArray(data.tasks)
+                ? data.tasks
+                : [];
+
+        reminders =
+            Array.isArray(data.reminders)
+                ? data.reminders
+                : [];
+
+        shopping =
+            Array.isArray(data.shopping)
+                ? data.shopping
+                : [];
+
+        ideas =
+            Array.isArray(data.ideas)
+                ? data.ideas
+                : [];
+
+        notes =
+            Array.isArray(data.notes)
+                ? data.notes
+                : [];
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load Brain Dump data.",
+            error
+        );
+
+        tasks = [];
+        reminders = [];
+        shopping = [];
+        ideas = [];
+        notes = [];
+
+    }
+
+    displayAll();
+
+}
+
+
+function saveData() {
+
+    const data = {
+        tasks,
+        reminders,
+        shopping,
+        ideas,
+        notes
+    };
+
+    localStorage.setItem(
+        "brainDumpData",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================================
+   SAVED LISTS
+========================================================= */
+
+function loadSavedListsData() {
+
+    const saved =
+        localStorage.getItem(
+            "brainDumpSavedLists"
+        );
+
+    if (!saved) {
+
+        savedLists = [];
+
+        return;
+
+    }
+
+    try {
+
+        savedLists =
+            JSON.parse(saved) || [];
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load saved lists.",
+            error
+        );
+
+        savedLists = [];
+
+    }
+
+}
+
+
+function saveSavedListsData() {
+
+    localStorage.setItem(
+        "brainDumpSavedLists",
+        JSON.stringify(savedLists)
+    );
+
+}
+
+
+function saveCurrentList() {
+
+    const totalItems =
+        tasks.length +
+        reminders.length +
+        shopping.length +
+        ideas.length +
+        notes.length;
+
+    if (totalItems === 0) {
+
+        alert(
+            "There is nothing to save yet.\n\n" +
+            "Organize some Brain Dump items first."
+        );
+
+        return;
+
+    }
+
+    const listName =
+        prompt(
+            "What would you like to name this list?"
+        );
+
+    if (
+        !listName ||
+        !listName.trim()
+    ) {
+
+        return;
+
+    }
+
+    const newList = {
+
+        id: Date.now(),
+
+        name: listName.trim(),
+
+        date:
+            new Date().toLocaleString(),
+
+        tasks: [...tasks],
+
+        reminders: [...reminders],
+
+        shopping: [...shopping],
+
+        ideas: [...ideas],
+
+        notes: [...notes]
+
+    };
+
+    savedLists.unshift(newList);
+
+    saveSavedListsData();
+
+    alert(
+        `"${newList.name}" has been saved!`
+    );
+
+}
+
+
+function openSavedLists() {
+
+    loadSavedListsData();
+
+    const content =
+        document.getElementById(
+            "moreContent"
+        );
+
+    if (!content) {
+        return;
+    }
+
+    content.innerHTML = `
+
+        <div class="saved-lists-header">
+
+            <button
+                type="button"
+                class="back-more-button"
+                onclick="closeSavedLists()"
+            >
+                ← BACK
+            </button>
+
+            <h2>
+                Saved Lists
+            </h2>
+
+            <p>
+                Your saved Brain Dump lists
+            </p>
+
+        </div>
+
+        <div id="savedLists"></div>
+
+    `;
+
+    displaySavedLists();
+
+}
+
+
+function closeSavedLists() {
+
+    const content =
+        document.getElementById(
+            "moreContent"
+        );
+
+    if (!content) {
+        return;
+    }
+
+    content.innerHTML = `
+
+        <div class="page-title">
+
+            <h2>
+                MORE
+            </h2>
+
+            <p>
+                More Brain Dump options
+            </p>
+
+        </div>
+
+        <div class="more-menu">
+
+            <button
+                class="more-menu-item"
+                onclick="openSavedLists()"
+            >
+                <span>📋</span>
+                <span>Saved Lists</span>
+            </button>
+
+            <button
+                class="more-menu-item"
+                onclick="comingSoon('Settings')"
+            >
+                <span>⚙️</span>
+                <span>Settings</span>
+            </button>
+
+            <button
+                class="more-menu-item"
+                onclick="comingSoon('About')"
+            >
+                <span>ℹ️</span>
+                <span>About</span>
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function displaySavedLists() {
+
+    const container =
+        document.getElementById(
+            "savedLists"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    if (savedLists.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="no-saved-lists">
+                No saved lists yet.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML =
+        savedLists
+            .map(list => `
+
+                <div class="saved-list-card">
+
+                    <div class="saved-list-info">
+
+                        <div class="saved-list-name">
+                            ${escapeHTML(list.name)}
+                        </div>
+
+                        <div class="saved-list-date">
+                            Saved ${escapeHTML(list.date)}
+                        </div>
+
+                    </div>
+
+                    <div class="saved-list-buttons">
+
+                        <button
+                            class="load-list-button"
+                            onclick="loadSavedList(${list.id})"
+                        >
+                            LOAD
+                        </button>
+
+                        <button
+                            class="delete-list-button"
+                            onclick="deleteSavedList(${list.id})"
+                        >
+                            DELETE
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `)
+            .join("");
+
+}
+
+
+function loadSavedList(id) {
+
+    const list =
+        savedLists.find(
+            savedList =>
+                savedList.id === id
+        );
+
+    if (!list) {
+
+        alert(
+            "Could not find that saved list."
+        );
+
+        return;
+
+    }
+
+    const confirmed =
+        confirm(
+            `Load "${list.name}"?\n\n` +
+            "This will replace your current My Tasks list."
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    tasks =
+        [...(list.tasks || [])];
+
+    reminders =
+        [...(list.reminders || [])];
+
+    shopping =
+        [...(list.shopping || [])];
+
+    ideas =
+        [...(list.ideas || [])];
+
+    notes =
+        [...(list.notes || [])];
+
+    saveData();
+
+    displayAll();
+
+    closeSavedLists();
+
+    showPage("tasks");
+
+    alert(
+        `"${list.name}" loaded.`
+    );
+
+}
+
+
+function deleteSavedList(id) {
+
+    const list =
+        savedLists.find(
+            savedList =>
+                savedList.id === id
+        );
+
+    if (!list) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `Delete "${list.name}"?\n\n` +
+            "This cannot be undone."
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    savedLists =
+        savedLists.filter(
+            savedList =>
+                savedList.id !== id
+        );
+
+    saveSavedListsData();
+
+    displaySavedLists();
+
+}
+
+
+/* =========================================================
+   ORGANIZER
+========================================================= */
+
+function organizeDump() {
+
+    stopVoiceInput();
+
+    const textarea =
+        document.getElementById("brainInput");
+
+    if (!textarea) {
+        return;
+    }
+
+    const input =
+        textarea.value.trim();
+
+    if (!input) {
+
+        alert(
+            "Dump something first!"
+        );
+
+        return;
+
+    }
+
+    const thoughts =
+        parseBrainDump(input);
+
+    thoughts.forEach(item => {
+
+        const thought =
+            item.text.trim();
+
+        if (!thought) {
+            return;
+        }
+
+
+        /* TASK */
+
+        if (item.section === "tasks") {
+
+            if (
+                !tasks.some(
+                    task =>
+                        task.toLowerCase() ===
+                        thought.toLowerCase()
+                )
+            ) {
+
+                tasks.push(thought);
+
+            }
+
+            if (item.date) {
+
+                const reminderDate =
+                    getReminderDate(item.date);
+
+                if (reminderDate) {
+
+                    addReminder(
+                        reminderDate,
+                        thought
+                    );
+
+                }
+
+            }
+
+            return;
+
+        }
+
+
+        /* REMINDER */
+
+        if (item.section === "reminders") {
+
+            const reminderDate =
+                item.date
+                    ? getReminderDate(item.date)
+                    : "For later";
+
+            addReminder(
+                reminderDate || "For later",
+                thought
+            );
+
+            return;
+
+        }
+
+
+        /* SHOPPING */
+
+        if (item.section === "shopping") {
+
+            if (
+                !shopping.some(
+                    value =>
+                        value.toLowerCase() ===
+                        thought.toLowerCase()
+                )
+            ) {
+
+                shopping.push(thought);
+
+            }
+
+            return;
+
+        }
+
+
+        /* IDEA */
+
+        if (item.section === "ideas") {
+
+            if (
+                !ideas.some(
+                    value =>
+                        value.toLowerCase() ===
+                        thought.toLowerCase()
+                )
+            ) {
+
+                ideas.push(thought);
+
+            }
+
+            return;
+
+        }
+
+
+        /* NOTE */
+
+        if (item.section === "notes") {
+
+            if (
+                !notes.some(
+                    value =>
+                        value.toLowerCase() ===
+                        thought.toLowerCase()
+                )
+            ) {
+
+                notes.push(thought);
+
+            }
+
+        }
+
+    });
+
+    saveData();
+
+    displayAll();
+
+    textarea.value = "";
+
+    showPage("tasks");
+
+}
+
+
+/* =========================================================
+   PARSER
+========================================================= */
+
+function parseBrainDump(input) {
+
+    const thoughts = [];
+
+    let text =
+        input
+            .replace(/\r\n/g, "\n")
+            .replace(/\r/g, "\n");
+
+
+    /*
+       Turn commas into separate lines.
+       This keeps the parser simple while still
+       supporting normal brain dumps.
+    */
+
+    text =
+        text.replace(/,/g, "\n");
+
+
+    const lines =
+        text
+            .split(/\n+/)
+            .map(line => line.trim())
+            .filter(Boolean);
+
+
+    const trigger =
+        /\b(?:i need to|i have to|i gotta|i should|remind me to|remember to|video idea|content idea|shopping list|grocery list|shopping|groceries|lista de compras|lista de compra|buy|buying|purchase|pick up|pickup|order|comprar|compra|hacer|haz|make|finish|complete|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe record|note|notes|nota|notas|add to my notes|save this|terminar|termina|limpiar|limpia|lavar|lava|llamar|llama|grabar|graba|editar|subir|crear|arreglar|reparar|construir|pagar|paga|organizar|revisar|visitar|ir|trabajar)\b/gi;
+
+
+    function splitLine(line) {
+
+        const matches = [];
+
+        let match;
+
+        while (
+            (match = trigger.exec(line)) !== null
+        ) {
+
+            matches.push(match.index);
+
+        }
+
+        trigger.lastIndex = 0;
+
+        if (matches.length <= 1) {
+
+            return [line];
+
+        }
+
+        const result = [];
+
+        for (
+            let i = 0;
+            i < matches.length;
+            i++
+        ) {
+
+            const start =
+                matches[i];
+
+            const end =
+                i + 1 < matches.length
+                    ? matches[i + 1]
+                    : line.length;
+
+            const piece =
+                line
+                    .slice(start, end)
+                    .trim();
+
+            if (piece) {
+
+                result.push(piece);
+
+            }
+
+        }
+
+        if (matches[0] > 0) {
+
+            const before =
+                line
+                    .slice(
+                        0,
+                        matches[0]
+                    )
+                    .trim();
+
+            if (before) {
+
+                result.unshift(before);
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+
+    const expanded = [];
+
+
+    lines.forEach(line => {
+
+        splitLine(line)
+            .forEach(piece => {
+
+                if (piece.trim()) {
+
+                    expanded.push(
+                        piece.trim()
+                    );
+
+                }
+
+            });
+
+    });
+
+
+    expanded.forEach(original => {
+
+        let text =
+            cleanText(original);
+
+        if (!text) {
+            return;
+        }
+
+        let date =
+            extractDate(text);
+
+        text =
+            date.text;
+
+        if (!text) {
+            return;
+        }
+
+
+        /* REMINDER */
+
+        if (
+            /^(remind me to|remind me|remind|remember to|remember|recuérdame|recuerdame|recuerda|acuérdame|acuerdame)\b/i
+                .test(text)
+        ) {
+
+            let reminderText =
+                text.replace(
+                    /^(remind me to|remind me|remind|remember to|remember|recuérdame|recuerdame|recuerda|acuérdame|acuerdame)\s*/i,
+                    ""
+                );
+
+            reminderText =
+                cleanText(reminderText);
+
+            if (reminderText) {
+
+                thoughts.push({
+
+                    text: reminderText,
+
+                    section: "reminders",
+
+                    date:
+                        date.date ||
+                        extractInlineDate(
+                            reminderText
+                        )
+
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        /* IDEA */
+
+        if (
+            /^(video idea|content idea|idea|idea de video|idea para video|i have an idea|i got an idea|i had an idea|tengo una idea|se me ocurrió una idea|se me ocurrio una idea)\b/i
+                .test(text)
+        ) {
+
+            let ideaText =
+                text.replace(
+                    /^(video idea|content idea|idea|idea de video|idea para video|i have an idea to|i have an idea|i got an idea to|i got an idea|i had an idea to|i had an idea|tengo una idea para|tengo una idea de|tengo una idea|se me ocurrió una idea para|se me ocurrió una idea|se me ocurrio una idea para|se me ocurrio una idea)\s*:?\s*/i,
+                    ""
+                );
+
+            ideaText =
+                cleanText(ideaText);
+
+            if (ideaText) {
+
+                thoughts.push({
+
+                    text: ideaText,
+
+                    section: "ideas",
+
+                    date: null
+
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        /* NOTE */
+
+        if (
+            /^(note|notes|nota|notas|add to my notes|save this)\b/i
+                .test(text)
+        ) {
+
+            let noteText =
+                text.replace(
+                    /^(note|notes|nota|notas|add to my notes|save this)\s*:?\s*/i,
+                    ""
+                );
+
+            noteText =
+                cleanText(noteText);
+
+            if (noteText) {
+
+                thoughts.push({
+
+                    text: noteText,
+
+                    section: "notes",
+
+                    date: null
+
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        /* SHOPPING LIST */
+
+        if (
+            /^(shopping\s+list|shopping|grocery\s+list|groceries|lista\s+de\s+compras|lista\s+de\s+compra)\b/i
+                .test(text)
+        ) {
+
+            let shoppingText =
+                text.replace(
+                    /^(shopping\s+list|shopping|grocery\s+list|groceries|lista\s+de\s+compras|lista\s+de\s+compra)\s*:?\s*/i,
+                    ""
+                );
+
+            shoppingText =
+                removeDateWords(
+                    shoppingText
+                );
+
+            const items =
+                splitShoppingItems(
+                    shoppingText
+                );
+
+            items.forEach(item => {
+
+                if (item) {
+
+                    thoughts.push({
+
+                        text: item,
+
+                        section: "shopping",
+
+                        date: null
+
+                    });
+
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        /* BUY / PURCHASE */
+
+        if (
+            /^(buy|buying|purchase|pick up|pickup|order|comprar|compra|comprar cosas)\b/i
+                .test(text)
+        ) {
+
+            let shoppingText =
+                text.replace(
+                    /^(buy|buying|purchase|pick up|pickup|order|comprar|compra|comprar cosas)\s*/i,
+                    ""
+                );
+
+            shoppingText =
+                removeDateWords(
+                    shoppingText
+                );
+
+            const items =
+                splitShoppingItems(
+                    shoppingText
+                );
+
+            items.forEach(item => {
+
+                if (item) {
+
+                    thoughts.push({
+
+                        text: item,
+
+                        section: "shopping",
+
+                        date: null
+
+                    });
+
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        /* TASK */
+
+        if (
+            /^(i need to|i have to|i gotta|i should|make|finish|complete|do|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe record|hacer|haz|terminar|termina|limpiar|limpia|lavar|lava|llamar|llama|grabar|graba|editar|subir|crear|arreglar|reparar|construir|pagar|paga|organizar|revisar|visitar|ir|trabajar)\b/i
+                .test(text)
+        ) {
+
+            let taskText =
+                text.replace(
+                    /^(i need to|i have to|i gotta|i should|hacer|haz|terminar|termina)\s*/i,
+                    ""
+                );
+
+            taskText =
+                taskText.replace(
+                    /^maybe\s+/i,
+                    ""
+                );
+
+            taskText =
+                cleanText(
+                    removeDateWords(
+                        taskText
+                    )
+                );
+
+            const taskParts =
+                splitTasks(taskText);
+
+            taskParts.forEach(part => {
+
+                if (part) {
+
+                    thoughts.push({
+
+                        text: part,
+
+                        section: "tasks",
+
+                        date:
+                            date.date ||
+                            extractInlineDate(
+                                original
+                            )
+
+                    });
+
+                }
+
+            });
+
+            return;
+
+        }
+
+
+        /* FALLBACK = NOTE */
+
+        thoughts.push({
+
+            text: text,
+
+            section: "notes",
+
+            date: null
+
+        });
+
+    });
+
+
+    return thoughts;
+
+}
+
+
+/* =========================================================
+   SPLIT TASKS
+========================================================= */
+
+function splitTasks(text) {
+
+    const result = [];
+
+    const pattern =
+        /\s+\band\s+(?=(?:make|finish|complete|do|clean|wash|call|record|edit|upload|create|fix|build|pay|organize|check|visit|go|work|maybe|i need|i have|i should)\b)/gi;
+
+    const pieces =
+        text.split(pattern);
+
+    pieces.forEach(piece => {
+
+        const cleaned =
+            cleanText(piece);
+
+        if (cleaned) {
+
+            result.push(cleaned);
+
+        }
+
+    });
+
+    return result;
+
+}
+
+
+/* =========================================================
+   SHOPPING SPLITTER
+========================================================= */
+
+function splitShoppingItems(text) {
+
+    text =
+        cleanText(text);
+
+    if (!text) {
+        return [];
+    }
+
+    let items =
+        text
+            .split(
+                /\s*(?:,|\band\b)\s*/i
+            )
+            .map(item =>
+                cleanText(item)
+            )
+            .filter(Boolean);
+
+
+    if (items.length === 1) {
+
+        const commonItems = [
+
+            "eggs",
+            "milk",
+            "bacon",
+            "soda",
+            "bread",
+            "water",
+            "cheese",
+            "chicken",
+            "beef",
+            "rice",
+            "toothpaste",
+            "paper towels",
+            "toilet paper",
+            "snacks",
+            "chips",
+            "cereal",
+            "coffee",
+            "soap",
+            "shampoo",
+            "deodorant",
+            "waffles",
+            "sausages",
+            "winnies",
+            "weenies",
+            "pork",
+            "juice",
+            "butter",
+            "flour",
+            "sugar",
+            "salt",
+            "candy",
+            "cookies",
+            "fruit",
+            "vegetables"
+
+        ];
+
+
+        let remaining =
+            items[0];
+
+        const found = [];
+
+
+        commonItems.forEach(item => {
+
+            const regex =
+                new RegExp(
+                    "\\b" +
+                    item.replace(
+                        " ",
+                        "\\s+"
+                    ) +
+                    "\\b",
+                    "i"
+                );
+
+            if (
+                regex.test(remaining)
+            ) {
+
+                found.push(item);
+
+                remaining =
+                    remaining.replace(
+                        regex,
+                        ""
+                    );
+
+            }
+
+        });
+
+
+        remaining =
+            cleanText(remaining);
+
+
+        if (found.length > 0) {
+
+            items = [
+                ...found
+            ];
+
+            if (remaining) {
+
+                items.push(
+                    remaining
+                );
+
+            }
+
+        }
+
+    }
+
+
+    return items;
+
+}
+
+
+/* =========================================================
+   DATES
+========================================================= */
+
+function extractDate(text) {
+
+    const pattern =
+        /^(today|tomorrow|tonight|this weekend|next week|next month|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i;
+
+    const match =
+        text.match(pattern);
+
+    if (!match) {
+
+        return {
+            date: null,
+            text
+        };
+
+    }
+
+    return {
+
+        date: match[1],
+
+        text:
+            text
+                .replace(
+                    pattern,
+                    ""
+                )
+                .trim()
+
+    };
+
+}
+
+
+function extractInlineDate(text) {
+
+    return getReminderDate(text);
+
+}
+
+
+function getReminderDate(text) {
+
+    if (!text) {
+        return null;
+    }
+
+    const lower =
+        text.toLowerCase();
+
+
+    if (/\btomorrow\b/.test(lower)) {
+        return "Tomorrow";
+    }
+
+    if (/\btoday\b/.test(lower)) {
+        return "Today";
+    }
+
+    if (/\btonight\b/.test(lower)) {
+        return "Tonight";
+    }
+
+    if (/\bthis weekend\b/.test(lower)) {
+        return "This weekend";
+    }
+
+    if (/\bnext week\b/.test(lower)) {
+        return "Next week";
+    }
+
+    if (/\bnext month\b/.test(lower)) {
+        return "Next month";
+    }
+
+
+    const days = {
+
+        monday: "Monday",
+        tuesday: "Tuesday",
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+        friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday"
+
+    };
+
+
+    for (const day in days) {
+
+        if (
+            new RegExp(
+                "\\b" + day + "\\b",
+                "i"
+            ).test(lower)
+        ) {
+
+            return days[day];
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+function removeDateWords(text) {
+
+    return text
+
+        .replace(
+            /\b(today|tomorrow|tonight|this weekend|next week|next month)\b/gi,
+            ""
+        )
+
+        .replace(
+            /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/gi,
+            ""
+        )
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
+
+}
+
+
+/* =========================================================
+   REMINDERS
+========================================================= */
+
+function addReminder(date, text) {
+
+    if (!text) {
+        return;
+    }
+
+    const exists =
+        reminders.some(
+            reminder =>
+                reminder.date === date &&
+                reminder.text.toLowerCase() ===
+                text.toLowerCase()
+        );
+
+    if (!exists) {
+
+        reminders.push({
+
+            date,
+            text
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAN TEXT
+========================================================= */
+
+function cleanText(text) {
+
+    return String(text || "")
+
+        .replace(
+            /^[-*•☐☑]\s*/i,
+            ""
+        )
+
+        .replace(
+            /^\[\s*[x ]\s*\]\s*/i,
+            ""
+        )
+
+        .replace(
+            /\s+/g,
+            " "
+        )
+
+        .trim();
+
+}
+
+
+/* =========================================================
+   DISPLAY EVERYTHING
+========================================================= */
+
+function displayAll() {
+
+    const results =
+        document.getElementById(
+            "results"
+        );
+
+    if (results) {
+
+        results.classList.add("show");
+
+    }
+
+    displayItems(
+        "tasks",
+        tasks,
+        "No tasks detected yet."
+    );
+
+    displayReminders();
+
+    displayItems(
+        "shopping",
+        shopping,
+        "No shopping items detected yet."
+    );
+
+    displayItems(
+        "ideas",
+        ideas,
+        "No ideas detected yet."
+    );
+
+    displayItems(
+        "notes",
+        notes,
+        "No notes detected yet."
+    );
+
+}
+
+
+/* =========================================================
+   DISPLAY CHECKBOX ITEMS
+========================================================= */
+
+function displayItems(
+    containerId,
+    items,
+    emptyMessage
+) {
+
+    const container =
+        document.getElementById(
+            containerId
+        );
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (!items.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-message">
+                ${emptyMessage}
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    items.forEach(
+        (item, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "item-row";
+
+
+            row.innerHTML = `
+
+                <div class="item-delete-bg">
+                    DELETE
+                </div>
+
+                <div class="item-content">
+
+                    <label class="checkbox-label">
+
+                        <input
+                            type="checkbox"
+                        >
+
+                        <span
+                            class="checkmark"
+                        ></span>
+
+                        <span class="item-text">
+                            ${escapeHTML(item)}
+                        </span>
+
+                    </label>
+
+                </div>
+
+            `;
+
+
+            const checkbox =
+                row.querySelector(
+                    "input[type='checkbox']"
+                );
+
+
+            checkbox.addEventListener(
+                "change",
+                function() {
+
+                    if (
+                        this.checked
+                    ) {
+
+                        row.classList.add(
+                            "completed"
+                        );
+
+                    }
+
+                    else {
+
+                        row.classList.remove(
+                            "completed"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            container.appendChild(row);
+
+
+            setupSwipeDelete(
+                row,
+                containerId,
+                index
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DISPLAY REMINDERS
+========================================================= */
+
+function displayReminders() {
+
+    const element =
+        document.getElementById(
+            "reminders"
+        );
+
+    if (!element) {
+        return;
+    }
+
+
+    element.innerHTML = "";
+
+
+    if (reminders.length === 0) {
+
+        element.innerHTML = `
+
+            <div class="empty-message">
+                No reminders detected yet.
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    reminders.forEach(
+        (reminder, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "item-row";
+
+
+            row.innerHTML = `
+
+                <div class="item-delete-bg">
+                    DELETE
+                </div>
+
+                <div class="item-content">
+
+                    <div class="item">
+
+                        🔔
+
+                        <strong>
+                            ${escapeHTML(reminder.date)}
+                        </strong>
+
+                        —
+                        ${escapeHTML(reminder.text)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            element.appendChild(row);
+
+
+            setupSwipeDelete(
+                row,
+                "reminders",
+                index
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SWIPE TO DELETE
+========================================================= */
+
+function setupSwipeDelete(
+    row,
+    category,
+    index
+) {
+
+    const content =
+        row.querySelector(
+            ".item-content"
+        );
+
+    if (!content) {
+        return;
+    }
+
+
+    let startX = 0;
+
+    let currentX = 0;
+
+    let dragging = false;
+
+    let moved = false;
+
+    const deleteDistance = 110;
+
+
+    function start(clientX) {
+
+        startX = clientX;
+
+        currentX = clientX;
+
+        dragging = true;
+
+        moved = false;
+
+        content.style.transition =
+            "none";
+
+    }
+
+
+    function move(clientX) {
+
+        if (!dragging) {
+            return;
+        }
+
+        currentX = clientX;
+
+        let distance =
+            currentX - startX;
+
+
+        /*
+           Only allow dragging LEFT.
+        */
+
+        if (distance > 0) {
+
+            distance = 0;
+
+        }
+
+
+        if (
+            Math.abs(distance) > 8
+        ) {
+
+            moved = true;
+
+        }
+
+
+        distance =
+            Math.max(
+                distance,
+                -180
+            );
+
+
+        content.style.transform =
+            `translateX(${distance}px)`;
+
+
+        if (
+            distance < -10
+        ) {
+
+            row.classList.add(
+                "swiping"
+            );
+
+        }
+
+    }
+
+
+    function end() {
+
+        if (!dragging) {
+            return;
+        }
+
+        dragging = false;
+
+
+        const distance =
+            currentX - startX;
+
+
+        content.style.transition =
+            "transform 0.2s ease";
+
+
+        if (
+            distance <=
+            -deleteDistance
+        ) {
+
+            row.classList.add(
+                "removing"
+            );
+
+
+            content.style.transform =
+                "translateX(-100%)";
+
+
+            setTimeout(
+                function() {
+
+                    deleteItemFromCategory(
+                        category,
+                        index
+                    );
+
+                },
+                250
+            );
+
+        }
+
+        else {
+
+            content.style.transform =
+                "translateX(0)";
+
+            row.classList.remove(
+                "swiping"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MOUSE
+    ===================================================== */
+
+    row.addEventListener(
+        "mousedown",
+        function(event) {
+
+            if (event.button !== 0) {
+                return;
+            }
+
+            start(
+                event.clientX
+            );
+
+        }
+    );
+
+
+    window.addEventListener(
+        "mousemove",
+        function(event) {
+
+            if (!dragging) {
+                return;
+            }
+
+            move(
+                event.clientX
+            );
+
+        }
+    );
+
+
+    window.addEventListener(
+        "mouseup",
+        function() {
+
+            end();
+
+        }
+    );
+
+
+    /* =====================================================
+       TOUCH
+    ===================================================== */
+
+    row.addEventListener(
+        "touchstart",
+        function(event) {
+
+            if (
+                !event.touches.length
+            ) {
+
+                return;
+
+            }
+
+            start(
+                event.touches[0].clientX
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    row.addEventListener(
+        "touchmove",
+        function(event) {
+
+            if (
+                !dragging ||
+                !event.touches.length
+            ) {
+
+                return;
+
+            }
+
+            move(
+                event.touches[0].clientX
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    row.addEventListener(
+        "touchend",
+        function() {
+
+            end();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ITEM
+========================================================= */
+
+function deleteItemFromCategory(
+    category,
+    index
+) {
+
+    if (category === "tasks") {
+
+        tasks.splice(index, 1);
+
+    }
+
+    else if (
+        category === "reminders"
+    ) {
+
+        reminders.splice(index, 1);
+
+    }
+
+    else if (
+        category === "shopping"
+    ) {
+
+        shopping.splice(index, 1);
+
+    }
+
+    else if (
+        category === "ideas"
+    ) {
+
+        ideas.splice(index, 1);
+
+    }
+
+    else if (
+        category === "notes"
+    ) {
+
+        notes.splice(index, 1);
+
+    }
+
+
+    saveData();
+
+    displayAll();
+
+}
+
+
+/* =========================================================
+   ADD ITEM
+========================================================= */
+
+function addItemToCategory(
+    category
+) {
+
+    const labels = {
+
+        tasks:
+            "Add a task",
+
+        reminders:
+            "Add a reminder",
+
+        shopping:
+            "Add a shopping item",
+
+        ideas:
+            "Add an idea",
+
+        notes:
+            "Add a note"
+
+    };
+
+
+    const value =
+        prompt(
+            labels[category] ||
+            "Add item"
+        );
+
+
+    if (value === null) {
+        return;
+    }
+
+
+    const item =
+        value.trim();
+
+
+    if (!item) {
+        return;
+    }
+
+
+    if (
+        category === "tasks"
+    ) {
+
+        if (
+            !tasks.some(
+                value =>
+                    value.toLowerCase() ===
+                    item.toLowerCase()
+            )
+        ) {
+
+            tasks.push(item);
+
+        }
+
+    }
+
+
+    else if (
+        category === "reminders"
+    ) {
+
+        addReminder(
+            "For later",
+            item
+        );
+
+    }
+
+
+    else if (
+        category === "shopping"
+    ) {
+
+        if (
+            !shopping.some(
+                value =>
+                    value.toLowerCase() ===
+                    item.toLowerCase()
+            )
+        ) {
+
+            shopping.push(item);
+
+        }
+
+    }
+
+
+    else if (
+        category === "ideas"
+    ) {
+
+        if (
+            !ideas.some(
+                value =>
+                    value.toLowerCase() ===
+                    item.toLowerCase()
+            )
+        ) {
+
+            ideas.push(item);
+
+        }
+
+    }
+
+
+    else if (
+        category === "notes"
+    ) {
+
+        if (
+            !notes.some(
+                value =>
+                    value.toLowerCase() ===
+                    item.toLowerCase()
+            )
+        ) {
+
+            notes.push(item);
+
+        }
+
+    }
+
+
+    saveData();
+
+    displayAll();
+
+}
+
+
+/* =========================================================
+   CLEAR EVERYTHING
+========================================================= */
+
+function clearAllData() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to clear everything?\n\n" +
+            "This will delete all tasks, reminders, shopping items, ideas, and notes."
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    tasks = [];
+
+    reminders = [];
+
+    shopping = [];
+
+    ideas = [];
+
+    notes = [];
+
+
+    localStorage.removeItem(
+        "brainDumpData"
+    );
+
+
+    displayAll();
+
+
+    alert(
+        "Brain Dump has been cleared."
+    );
+
+}
+
+
+/* =========================================================
+   HTML SECURITY
+========================================================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        String(text);
+
+    return div.innerHTML;
+
+}
+
+
+/*
+   Alias kept in case another part of
+   the app calls escapeHtml().
+*/
+
+function escapeHtml(text) {
+
+    return escapeHTML(text);
+
+}
+
+
+/* =========================================================
+   VOICE RECOGNITION
+========================================================= */
+
+function setupVoiceRecognition() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        console.warn(
+            "Speech recognition is not supported in this browser."
+        );
+
+        return;
+
+    }
+
+
+    recognition =
+        new SpeechRecognition();
+
+
+    recognition.continuous = true;
+
+    recognition.interimResults = true;
+
+    recognition.lang = "en-US";
+
+
+    recognition.onstart =
+        function() {
+
+            isListening = true;
+
+
+            const micButton =
+                document.getElementById(
+                    "micButton"
+                );
+
+
+            const voiceStatus =
+                document.getElementById(
+                    "voiceStatus"
+                );
+
+
+            if (micButton) {
+
+                micButton.classList.add(
+                    "listening"
+                );
+
+                micButton.textContent =
+                    "⏹️";
+
+                micButton.setAttribute(
+                    "aria-label",
+                    "Stop voice input"
+                );
+
+            }
+
+
+            if (voiceStatus) {
+
+                voiceStatus.textContent =
+                    "Listening... speak freely.";
+
+                voiceStatus.classList.add(
+                    "listening"
+                );
+
+            }
+
+        };
+
+
+    recognition.onresult =
+        function(event) {
+
+            const textarea =
+                document.getElementById(
+                    "brainInput"
+                );
+
+
+            if (!textarea) {
+                return;
+            }
+
+
+            let finalText = "";
+
+
+            for (
+                let i = event.resultIndex;
+                i < event.results.length;
+                i++
+            ) {
+
+                if (
+                    event.results[i].isFinal
+                ) {
+
+                    finalText +=
+                        event.results[i][0]
+                            .transcript;
+
+                }
+
+            }
+
+
+            if (
+                !finalText.trim()
+            ) {
+
+                return;
+
+            }
+
+
+            let spoken =
+                finalText.trim();
+
+
+            if (
+                /^backspace$/i.test(spoken) ||
+                /^go back$/i.test(spoken)
+            ) {
+
+                textarea.value =
+                    textarea.value.slice(
+                        0,
+                        -1
+                    );
+
+                textarea.focus();
+
+                return;
+
+            }
+
+
+            if (
+                /^delete that$/i.test(spoken) ||
+                /^delete last word$/i.test(spoken)
+            ) {
+
+                textarea.value =
+                    textarea.value.replace(
+                        /\s*\S+\s*$/,
+                        ""
+                    );
+
+                textarea.focus();
+
+                return;
+
+            }
+
+
+            spoken =
+                spoken
+
+                    .replace(
+                        /\bnew paragraph\b/gi,
+                        "\n\n"
+                    )
+
+                    .replace(
+                        /\bnew line\b/gi,
+                        "\n"
+                    )
+
+                    .replace(
+                        /\benter\b/gi,
+                        "\n"
+                    )
+
+                    .replace(
+                        /\bcomma\b/gi,
+                        ","
+                    )
+
+                    .replace(
+                        /\bperiod\b/gi,
+                        "."
+                    )
+
+                    .replace(
+                        /\bfull stop\b/gi,
+                        "."
+                    )
+
+                    .replace(
+                        /\bquestion mark\b/gi,
+                        "?"
+                    )
+
+                    .replace(
+                        /\bexclamation mark\b/gi,
+                        "!"
+                    )
+
+                    .replace(
+                        /\bexclamation point\b/gi,
+                        "!"
+                    )
+
+                    .replace(
+                        /\bcolon\b/gi,
+                        ":"
+                    )
+
+                    .replace(
+                        /\bsemicolon\b/gi,
+                        ";"
+                    )
+
+                    .replace(
+                        /\bhyphen\b/gi,
+                        "-"
+                    )
+
+                    .replace(
+                        /\bdash\b/gi,
+                        "—"
+                    )
+
+                    .replace(
+                        /\bopen parenthesis\b/gi,
+                        "("
+                    )
+
+                    .replace(
+                        /\bclose parenthesis\b/gi,
+                        ")"
+                    );
+
+
+            const existing =
+                textarea.value;
+
+
+            const startsWithPunctuation =
+                /^[,.;:!?)]/.test(
+                    spoken
+                );
+
+
+            const startsWithNewLine =
+                spoken.startsWith("\n");
+
+
+            if (
+                existing.length > 0 &&
+                !startsWithPunctuation &&
+                !startsWithNewLine &&
+                !existing.endsWith("\n")
+            ) {
+
+                textarea.value =
+                    existing +
+                    " " +
+                    spoken;
+
+            }
+
+            else {
+
+                textarea.value =
+                    existing +
+                    spoken;
+
+            }
+
+
+            textarea.focus();
+
+
+            textarea.selectionStart =
+                textarea.value.length;
+
+
+            textarea.selectionEnd =
+                textarea.value.length;
+
+        };
+
+
+    recognition.onerror =
+        function(event) {
+
+            console.warn(
+                "Speech recognition error:",
+                event.error
+            );
+
+
+            if (
+                event.error === "not-allowed" ||
+                event.error === "service-not-allowed"
+            ) {
+
+                alert(
+                    "Microphone permission was denied. " +
+                    "Please allow microphone access in your browser."
+                );
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function() {
+
+            isListening = false;
+
+
+            const micButton =
+                document.getElementById(
+                    "micButton"
+                );
+
+
+            const voiceStatus =
+                document.getElementById(
+                    "voiceStatus"
+                );
+
+
+            if (micButton) {
+
+                micButton.classList.remove(
+                    "listening"
+                );
+
+                micButton.textContent =
+                    "🎙️";
+
+                micButton.setAttribute(
+                    "aria-label",
+                    "Start voice input"
+                );
+
+            }
+
+
+            if (voiceStatus) {
+
+                voiceStatus.textContent =
+                    "Don't organize it. Just dump it.";
+
+                voiceStatus.classList.remove(
+                    "listening"
+                );
+
+            }
+
+        };
+
+}
+
+
+function toggleVoiceInput() {
+
+    if (!recognition) {
+
+        alert(
+            "Voice input is not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    if (isListening) {
+
+        stopVoiceInput();
+
+        return;
+
+    }
+
+
+    try {
+
+        recognition.start();
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not start voice recognition.",
+            error
+        );
+
+    }
+
+}
+
+
+function stopVoiceInput() {
+
+    if (
+        recognition &&
+        isListening
+    ) {
+
+        try {
+
+            recognition.stop();
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                "Could not stop voice recognition.",
+                error
+            );
+
+        }
+
+    }
+
+
+    isListening = false;
+
+
+    const micButton =
+        document.getElementById(
+            "micButton"
+        );
+
+
+    const voiceStatus =
+        document.getElementById(
+            "voiceStatus"
+        );
+
+
+    if (micButton) {
+
+        micButton.classList.remove(
+            "listening"
+        );
+
+        micButton.textContent =
+            "🎙️";
+
+        micButton.setAttribute(
+            "aria-label",
+            "Start voice input"
+        );
+
+    }
+
+
+    if (voiceStatus) {
+
+        voiceStatus.textContent =
+            "Don't organize it. Just dump it.";
+
+        voiceStatus.classList.remove(
+            "listening"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+function setupBrainDumpKeyboard() {
+
+    const textarea =
+        document.getElementById(
+            "brainInput"
+        );
+
+
+    if (!textarea) {
+        return;
+    }
+
+
+    textarea.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                stopVoiceInput();
+
+                organizeDump();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   COMING SOON
+========================================================= */
+
+function comingSoon(section) {
+
+    alert(
+        section +
+        " is coming soon."
+    );
+
+}
+
+
+/* =========================================================
+   START APP
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadData();
+
+        loadSavedListsData();
+
+        setupVoiceRecognition();
+
+        setupBrainDumpKeyboard();
+
+        /*
+           Brain Dump is the landing page.
+        */
+
+        showPage("dump");
+
+    }
+);
+
+</script>
+
+
+<script>
+
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            navigator.serviceWorker
+                .register("./sw.js")
+                .catch(
+                    function(error) {
+
+                        console.warn(
+                            "Service worker could not register:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
